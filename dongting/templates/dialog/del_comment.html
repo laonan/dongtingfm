@@ -1,0 +1,42 @@
+{% load url from future %}
+<script type="text/javascript">
+$(document).ready(function() {
+	
+	$('#btn_close_dialog').click(function () {
+		tb_remove();
+	});
+	
+	$('#btn_confirm').click(function() {
+		$.ajax({
+				type: 'GET',
+				contentType: 'application/json',
+				url: '{% url 'songs.views.del_comment' %}',
+				data: 'song_comment_id=' + del_song_comment_id,
+				dataType: 'json',
+				beforeSend: function() {
+				},
+				error: function (XmlHttpRequest, textStatus, errorThrown){
+				}, 
+				success: function(jsonData) {
+					if(jsonData.deleted) {
+						$('#id_comment_content_' + del_song_comment_id).slideUp();
+						var comments = jsonData.comments;
+						$('#div_comments_count').html('<h3>' + comments + ' 条评论</h3>');
+						$('#span_comments').html('评论(' + comments + ')');
+						tb_remove();
+					}
+				}
+			});
+	});
+});
+</script>
+<div class="dialog_del_comment">
+	<img src="{{ STATIC_URL }}images/comment_delete.png">
+	<span>您确定要删除此回复吗？</span>
+</div>
+<div class="clear"></div>
+<br>
+<div class="center">
+	<input type="button" id="btn_confirm" class="btn" value="确 定">
+	<input type="button" id="btn_close_dialog" class="btn" value="取 消">
+</div>

@@ -1,0 +1,40 @@
+{% load url from future %}
+<script type="text/javascript">
+$(document).ready(function() {
+	$('#sp_msg').text('您确定要撤销拉黑"' + unblock_username + '"吗？');
+	$('#btn_close_dialog').click(function () {
+		tb_remove();
+	});
+	
+	$('#btn_confirm').click(function() {
+		$.ajax({
+				type: 'GET',
+				contentType: 'application/json',
+				url: '{% url 'sns.views.bad_guy' %}',
+				data: 'uid=' + unblock_userid,
+				dataType: 'json',
+				beforeSend: function() {
+				},
+				error: function (XmlHttpRequest, textStatus, errorThrown){
+				}, 
+				success: function(jsonData) {
+					if(jsonData.excuted) {
+						$('#id_bad_guy_' + unblock_userid).slideUp();
+					}
+					
+					tb_remove();
+				}
+			});
+	});
+});
+</script>
+<div class="center">
+	<img src="{{ STATIC_URL }}images/unlock.png">
+	<span id="sp_msg">您确定要拉黑"XXXXXX"吗？拉黑会同时解除对方的关注。</span>
+</div>
+<div class="clear"></div>
+<br>
+<div class="center">
+	<input type="button" id="btn_confirm" class="btn" value="确 定">
+	<input type="button" id="btn_close_dialog" class="btn" value="取 消">
+</div>

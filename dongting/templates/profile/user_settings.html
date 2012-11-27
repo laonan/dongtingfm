@@ -1,0 +1,110 @@
+{% extends "m_base.html" %}
+{% load url from future %}
+{% block title %}用户设置{% endblock %}
+{% block style %}
+<link href="{{ STATIC_URL }}css/settings.css" rel="stylesheet"type="text/css" />
+{% endblock %}
+
+{% block javascript %}
+<script src="{{ STATIC_URL }}js/settings.js" type="text/javascript"></script>
+{% endblock %}
+ 
+{% block page %}
+<div id="settings_box" class="box corners">
+    <h2>设置</h2>
+    <br>
+    <div id="settings_left">
+        <div class="avatar_small">
+            {% if avatar_url %}
+            <img src="{{ MEDIA_URL }}{{ avatar_url }}" alt="avatar">
+            {% else %}
+            <img src="{{ STATIC_URL }}images/default_avatar.jpg" alt="avatar">
+            {% endif %}
+        </div>
+        <div class="clear"></div>
+        <div class="txt_center">
+            {{ user.username }}
+        </div>
+    </div>
+    <div id="settings_right">
+        <ul id="tab_options">
+            <li id="li_cpwd" class="o_tab"><a href="javascript:void(0);">修改密码</a></li>
+            <li id="li_cinfo" class="c_tab"><a href="javascript:void(0);">基本信息</a></li>
+        </ul>
+        <div class="clear"></div>
+        <div id="settings_tab1">
+            <form id="settings_form" enctype="multipart/form-data" action="" method="POST">
+                {% csrf_token %}
+                <div class="fieldWrapper">
+                    <label for="id_email">登录E-Mail:</label>
+                    {{ user.email }} <span>(不能修改)</span>
+                </div>
+                <div class="fieldWrapper">
+                    {{ form.username.errors }}
+                    <label for="id_username">用户名/昵称:</label>
+                    {{ form.original_username }}
+                    {{ form.username }}
+                </div>
+                <div class="fieldWrapper">
+                    {{ form.city.errors }}
+                    <label for="id_city">城市:</label>
+                    {{ form.city }}
+                </div>
+                <div class="fieldWrapper">
+                    {{ form.website.errors }}
+                    <label for="id_website">网站/博客:</label>
+                    {{ form.website }}
+                </div>
+                <div class="fieldWrapper">
+                    {{ form.intro.errors }}
+                    <label for="id_intro">一句话介绍:</label>
+                    {{ form.intro }}
+                </div>
+                <div class="fieldWrapper">
+                    {{ form.qq.errors }}
+                    <label for="id_qq">QQ:</label>
+                    {{ form.qq }}
+                </div>
+                <div class="fieldWrapper">
+                    {{ form.msn.errors }}
+                    <label for="id_qq">MSN:</label>
+                    {{ form.msn }}
+                </div>
+                <div class="fieldWrapper">
+                    {{ form.avatar.errors }}
+                    <label for="id_avatar">头像：</label>
+                    <input type="file" name="avatar" id="id_avatar">
+                    <span>(45*45 像素，最大2MB，只支持JPG,GIF和PNG格式)</span>
+                </div>
+                <p><input type="submit" class="btn" value="确定"></p>
+            </form>
+        </div>
+        <div id="settings_tab2">
+            <form id="change_pwd_form" action="{% url 'accounts.views.change_password' %}" method="POST">
+                {% csrf_token %}
+                {% if weibo_user_ret %}
+                <div class="fieldWrapper">
+                    <img src="{{ STATIC_URL }}images/api/sbutton1.png">
+                    通过新浪微博连接过来的朋友，如果从未设置过本站密码，<a href="{% url 'django.contrib.auth.views.password_reset' %}" target="_blank">请通过邮箱重设置密码</a>
+                </div>
+                {% endif %}
+                <div class="fieldWrapper">
+                    <label for="id_old_password">原密码:</label>
+                    <input type="password" class="validate[required,minSize[6]] text-input" name="old_password" id="id_old_password">
+                </div>
+                <div class="fieldWrapper">
+                    <label for="id_new_password">新密码:</label>
+                    <input type="password" class="validate[required,minSize[6]] text-input" name="new_password" id="id_new_password">
+                </div>
+                <div class="fieldWrapper">
+                    <label for="id_confirm_password">确认新密码:</label>
+                    <input type="password" class="validate[required,equals[id_new_password]] text-input" name="confirm_password" id="id_confirm_password">
+                </div>
+                <p><input id="btn_cpwd" type="submit"  class="btn" value="修改"></p>
+            </form>
+            <div id="cpwd_msg" style="width:200px;"></div>
+        </div>
+
+    </div>
+</div>
+{% endblock %}

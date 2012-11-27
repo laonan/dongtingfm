@@ -1,0 +1,29 @@
+{% load url from future %}
+<div class="user_box box corners">
+	<ul>
+		<li>
+			<img src="{{ STATIC_URL }}images/follower.png">
+			<a href="{% url 'sns.views.user_following' uid=user.id %}">我关注的人(<span id="user_box_following_count">{% if user.get_profile %}{{ user.get_profile.following }}{% else %}0{% endif %}</span>)</a>
+			|
+			<a href="{% url 'sns.views.get_people_list' %}">找朋友</a>
+		</li>
+		<li>
+			<img src="{{ STATIC_URL }}images/follower.png">
+			<a href="{% url 'sns.views.user_followers' uid=user.id %}">关注我的人(<span id="user_box_follower_count">{% if user.get_profile %}{{ user.get_profile.followers }}{% else %}0{% endif %}</span>)</a>
+			|
+			<a href="{% url 'sns.views.invite_people_by_email' %}">邀请朋友</a>
+		</li>
+		<li>
+			<img src="{{ STATIC_URL }}images/feather.png">
+			<a href="{% url 'songs.views.comments' %}">我的评论</a>
+		</li>
+		<li>
+			<img src="{{ STATIC_URL }}images/d-mail.png">
+			<a id="link_user_box_mails_count" href="{% url 'sns.views.private_mails' %}">私信(<span>正在读取...</span>)</a>
+		</li>
+		<li>
+			<img src="{{ STATIC_URL }}images/blacklist.png">
+			<a id="link_user_box_mails_count" href="{% url 'sns.views.get_blacklist' %}">管理我的黑名单</a>
+		</li>
+	</ul>
+</div>	

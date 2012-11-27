@@ -1,0 +1,277 @@
+﻿{% extends "m_sections.html" %}
+{% load url from future %}
+﻿{% load filters %}
+{% block title %}{{ song.title }} - 动听FM{% endblock %}
+
+{% block style %}
+<link href="{{ STATIC_URL }}js/NiftyCube/niftyCorners.css" rel="stylesheet" type="text/css" media="screen" />
+<link href="{{ STATIC_URL }}css/song_list.css" rel="stylesheet" type="text/css" media="screen" />
+<link href="{{ STATIC_URL }}css/song_details.css" rel="stylesheet" type="text/css" media="screen" />
+{% endblock %}
+
+{% block javascript %}
+<script src="{{ STATIC_URL }}js/NiftyCube/niftycube.js" type="text/javascript"></script>
+<script type="text/javascript">
+	var song_id = {{ song.id }};
+	var this_url = '{% url 'songs.views.song_details' song_id=song.id %}';
+	var dig_url = '{% url 'songs.views.dig' %}';
+	var bury_url = '{% url 'songs.views.bury' %}';
+	var favorite_action = '{{ favorite_action }}'
+	var favorite_add_url = '{% url 'songs.views.favorite' action_name="add" %}';
+	var favorite_remove_url = '{% url 'songs.views.favorite' action_name="remove" %}';
+	var comment_url = '{% url 'songs.views.comment' %}';
+	var hide_bury = false;
+	window.onload = function(){
+		Nifty("div.xRoundBox","big same-height transparent");
+	}
+	
+</script>
+<script src="{{ STATIC_URL }}js/songs/dig.js" type="text/javascript"></script>
+<script src="{{ STATIC_URL }}js/songs/bury.js" type="text/javascript"></script>
+<script src="{{ STATIC_URL }}js/songs/favorite.js" type="text/javascript"></script>
+<script src="{{ STATIC_URL }}js/songs/song_details.js" type="text/javascript"></script>
+{% endblock %}
+
+{% block content %}
+<div id="div_song_{{ song.id }}" class="song_show">
+	<ul>
+		<li>
+			<span id="span_digs_{{ song.id }}">{{ song.digs }}</span>
+		</li>
+		<li>
+			<a id="link_dig_{{ song.id }}" href="javascript:void(0);"> 动 听 </a>
+		</li>
+		<li class="share"></li>
+	</ul>
+	<dl>
+		<dt>
+			<a href="{% url 'songs.views.song_details' song_id=song.id %}">
+				{{ song.title }}
+			</a>
+		</dt>
+		
+		<dd>
+			{% if song.album %}
+			<label>专辑：</label>
+			<span>
+				<a href="{% url 'songs.views.search' %}?q={{ song.album|escape }}">
+					{{ song.album }}
+				</a>
+			</span>
+			{% endif %}
+			{% if song.singer %} 
+			<label>艺术家：</label>
+			<span>
+				<a href="{% url 'songs.views.search' %}?q={{ song.singer|escape }}">
+					{{ song.singer }}
+				</a>
+			</span>
+			{% endif %}
+			{% if song.genre %} 
+			<label>流派：</label> 
+			<span>
+				<a href="{% url 'songs.views.song_list' genre_code=song.genre.genre_name_code %}">
+					{{ song.genre.genre_name }}
+				</a>
+			</span>
+			{% endif %}
+		</dd>
+		<dd>
+		{% if song.audio_url and all_show_media and song.show_media %}
+			{% if ipad %}
+			<br>
+			<audio src="{{ song.audio_url }}" controls autoplay loop></audio>
+		    {% else %}
+		    <div id="dewplayer_content">
+				<object data="{{ STATIC_URL }}dewplayer/dewplayer.swf" width="200" height="20" name="dewplayer" id="dewplayer" type="application/x-shockwave-flash">
+					<param name="movie" value="{{ STATIC_URL }}dewplayer/dewplayer.swf" />
+					<param name="flashvars" value="mp3={{ song.audio_url }}&amp;autoreplay=1" />
+					<param name="wmode" value="transparent" />
+				</object>
+				<div id="url_box">
+					<span>来源(Original audio source)：</span>{{ song.audio_url }}
+				</div>
+			</div>
+			<script type="text/javascript">
+				var flashvars = {
+					mp3: "{{ song.audio_url }}"
+				};
+				var params = {
+					wmode: "transparent"
+				};
+				var attributes = {
+					id: "dewplayer"
+				};
+				swfobject.embedSWF("{{ STATIC_URL }}dewplayer/dewplayer.swf", "dewplayer_content", "200", "20", "9.0.0", false, flashvars, params, attributes);
+			</script>
+		    {% endif %}
+		{% endif %}
+		{% if song.flash_url and all_show_media and song.show_media %}
+		<div id="dewplayer_content">
+			{% if ipad %}
+			<br>
+			<span>flash外链，iPad无法播放:(</span>
+			{% else %}
+		    <object classid='clsid:D27CDB6E-AE6D-11cf-96B8-444553540000' width='{{ song.flash_width }}' height='{{ song.flash_height }}' id='bdmp3widget7322'>
+		    	<param name='movie' value='{{ song.flash_url }}'></param>
+		    	<param name='wmode' value='opaque'></param>
+		    	<param name='allowscriptaccess' value='always'></param>
+		    	<embed src='{{ song.flash_url }}' type='application/x-shockwave-flash' wmode='opaque' allowscriptaccess='always' width='{{ song.flash_width }}' height='{{ song.flash_height }}' name='bdmp3widget7322'></embed>
+		    </object>
+		    {% endif %}
+		 </div>
+		 {% endif %}
+			<div id="song_source_intro">
+				{% if song.song_cover_url %}
+				<div class="artist_headshot">
+					<div class="artist_small">
+						<img src="{{ MEDIA_URL }}{{ song.song_cover_url }}">
+					</div>
+				</div>
+				{% endif %}
+			    {% if song.source %}
+				<span>源：{{ song.source }} --</span>
+				{% endif %}
+				{{ song.intro|escape }}
+			</div>
+		</dd>
+		<dd>
+			<label>发布人：</label> 
+			<a href="{% url 'songs.views.songs_by_user' uid=song.user_id %}">
+				{{ song.user.username }}
+			</a>
+			<span class="datetime">--{{ song.post_datetime|friendly_time }}</span>
+			<a href="javascript:void(0);">
+				<img src="{{ STATIC_URL }}images/comments_icon.gif">
+				<span id="span_comments">评论({{ song.comments }})</span>
+			</a>
+			
+			{% if user.id != song.user_id %}
+			<a id="link_bury_{{ song.id }}" href="javascript:void(0);">
+				<img src="{{ STATIC_URL }}images/bury.gif">
+				<span>难听</span>
+			</a>
+			{% endif %}
+
+			{% if user.id != song.user_id %}
+			<a id="link_favorite{{ favorite_action }}_{{ song.id }}" href="javascript:void(0);">
+				<img src="{{ STATIC_URL }}images/save.gif">
+				<span>{% if favorite_action == 'add' %}收藏{% else %} 取消收藏 {% endif %}</span>
+			</a>
+			{% endif %}
+
+			
+			{% if user.id == song.user_id %}
+			<a href="{% url 'songs.views.song_edit' song_id=song.id %}?height=290&width=450" title="修改 {{ song.title }}" class="thickbox">修改</a>
+			{% endif %}
+
+			<div id="comment_box">
+				<div class="xRoundBox">
+					<textarea id="txt_comment" rows="6" cols="56" style="overflow:hidden;" onpropertychange="this.style.height=this.scrollHeight + 'px'" oninput="this.style.height=this.scrollHeight + 'px'"></textarea>
+					<input id="txt_reply_to_user" type="hidden">
+					<div class="xSubmit">
+					<input id="btn_comment" type="button" class="btn" value="发表评论">
+                    {% if weibo_user_ret %}
+                        <input id="share_to_weibo" name="share_to_weibo" checked="checked" type="checkbox">
+                        <span>分享到新浪微博</span>
+                        <img src="{{ STATIC_URL }}images/api/sbutton1.png">
+                    {% endif %}
+                    </div>
+				</div>
+			</div>
+
+		</dd>
+	</dl>
+	<div class="clear"></div>
+	<div id="div_comments_count">
+		<h3>{{ song.comments }} 条评论</h3>
+	</div>
+</div>
+<div class="clear"></div>
+<div id="div_comments_content">
+    {% for comment in comments.object_list %}
+    <div id="id_comment_content_{{ comment.id }}" class="comment_content">
+    	<ul>
+    		<li>
+		    	<div class="avatar_small">
+		    		{% if comment.comment_user_avatar %}
+		    		<img src="{{ MEDIA_URL }}{{ comment.comment_user_avatar }}">
+		    		{% else %}
+		    		<img src="{{ STATIC_URL }}images/default_avatar.jpg">
+		    		{% endif %}
+		    	</div>
+	    	</li>
+	    	<li class="comment_right">
+	    		<div>
+	    			{% if user.is_authenticated %}
+	    			<a class="reply_comment" onclick="comment_reply(this);" href="#">
+	    				<img src="{{ STATIC_URL }}images/comments_icon.gif"> 回复
+	    			</a>
+	    			{% endif %}
+	    			{% if user.id == comment.user_id or user.id == song.user_id %}
+	    			<a class="del_comment" href="javascript:del_comment({{ comment.id }});">
+	    				<img src="{{ STATIC_URL }}images/delete.gif"> 删除
+	    			</a>
+	    			{% endif%}
+	    			
+	    			<a id="reply_{{ comment.user_id }}" href="{% url 'songs.views.songs_by_user' uid=comment.user_id %}">{{ comment.user.username }}</a>
+	    			<span class="datetime">--{{ comment.comment_datetime|friendly_time }}</span>
+	    		</div>
+	    		<div class="clear"></div>
+	    		<div>{{ comment.comment|format_comment|safe }}</div>
+	    	</li>
+    	</ul>
+    	<div class="clear"></div>
+    </div>
+    {% endfor %}
+</div>
+<div class="pagination">
+	<span class="step-links">
+    {% if comments.has_previous %}
+    <a id="prev" href="?page={{ comments.previous_page_number }}">上一页</a>
+    {% else %}
+    <span style="visibility:hidden;">上一页</span>
+    {% endif %}
+
+    <span class="current">
+    	第 {{ comments.number }} 页 / {{ comments.paginator.num_pages }} 页. 
+    </span>
+
+	{% if comments.has_next %}
+	<a id="next" href="?page={{ comments.next_page_number }}">下一页</a>
+    {% else %}
+	<span style="visibility:hidden;">下一页</span>
+    {% endif %}
+    </span>
+</div>
+
+<a id="link_del_comment_dialog" class="thickbox" href="{% url 'del_comment' %}?height=100&width=200&modal=true"></a>
+{% endblock %}
+
+{% block righttop %}
+
+{% endblock %}
+
+{% block rightbottom %}
+<div id="dig_users" class="box corners">
+	<div id="digs_title">
+		<label>动听过这首歌的人：</label>
+		<a class="thickbox" title="动听过 {{ song.title }} 的人：" href="{% url 'songs.views.song_digs' song_id=song.id %}?height=360&width=480">(共 {{ song.digs }} 人)</a>
+	</div>
+	<div class="clear"></div>
+	{% for dig in digs %}
+	<div class="dig_users_box">
+		<div class="avatar_small">
+			<a href="{% url 'songs.views.songs_by_user' uid=dig.user_id %}">
+				{% if dig.dig_user_avatar %}
+				<img src="{{ MEDIA_URL }}{{ dig.dig_user_avatar }}">
+				{% else %}
+				<img src='{{ STATIC_URL }}images/default_avatar.jpg'>
+				{% endif %}
+			</a>
+		</div>
+		<a class="link_dig_user" href="{% url 'songs.views.songs_by_user' uid=dig.user_id %}">{{ dig.dig_user_name }}</a>
+	</div>
+	{% endfor %}
+</div>
+{% endblock %}

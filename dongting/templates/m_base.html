@@ -1,0 +1,135 @@
+{% load url from future %}
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <meta name="keywords" content="dongting,fm" />
+        <meta name="description" content="" />
+        <title>{% block title %}{% endblock %} - dongting.fm </title>
+        <link href="{{ STATIC_URL }}css/layout.css" rel="stylesheet" type="text/css" media="screen" />
+        <link href="{{ STATIC_URL }}css/user_profiles.css" rel="stylesheet" type="text/css" media="screen" />
+        <link href="{{ STATIC_URL }}js/jquery-ui/css/jquery.ui.all.css" rel="stylesheet" type="text/css" media="screen" />
+        <link href="{{ STATIC_URL }}js/validationEngine/css/validationEngine.jquery.css" rel="stylesheet" type="text/css" />
+        <link href="{{ STATIC_URL }}js/thickbox3.1/thickbox.css" rel="stylesheet" type="text/css" media="screen" />
+        <link href="{{ STATIC_URL }}js/qtip/jquery.qtip.min.css" rel="stylesheet" type="text/css" media="screen" />
+        <link href="{{ STATIC_URL }}js/jQuery.jPlayer.2.1.0/dongting.skin/circle.player.css" rel="stylesheet" type="text/css" media="screen" />
+
+        {% block style %}{% endblock %}
+        <script src="{{ STATIC_URL }}js/jquery-1.6.1.min.js" type="text/javascript"></script>
+        <script src="{{ STATIC_URL }}js/jquery-ui/ui/jquery.effects.core.js" type="text/javascript"></script>
+        <script src="{{ STATIC_URL }}js/jquery-ui/ui/jquery.effects.highlight.js" type="text/javascript"></script>
+        <script src="{{ STATIC_URL }}js/jquery-ui/ui/jquery.effects.pulsate.js" type="text/javascript"></script>
+        <script src="{{ STATIC_URL }}js/csrf_token.js" type="text/javascript"></script>
+        <script src="{{ STATIC_URL }}js/jquery.form.js" type="text/javascript"></script>
+        <script src="{{ STATIC_URL }}js/qtip/jquery.qtip.min.js" type="text/javascript"></script>
+        <script type="text/javascript">
+            var static_url = '{{ STATIC_URL }}';
+            var media_url = '{{ MEDIA_URL }}';
+            var search_url = '{% url 'songs.views.search' %}';
+            var my_mails_url = '{% url 'sns.views.private_mails' %}';
+
+            var private_mails_count_url = '{% url 'sns.views.private_mails_count' %}';
+            var my_followers_url = '{% url 'sns.views.user_followers' uid=user.id %}';
+            var new_followers = {% if user.get_profile and user.get_profile.new_followers %}{{ user.get_profile.new_followers }}{% else %}0{% endif %};
+
+            var comments_for_me_url = '{% url 'songs.views.comments' %}';
+            var unread_comments_url = '{% url 'songs.views.get_unread_comments' %}';
+
+            {% if user_profile %}
+                var radion_song_url = '{% url 'user_radio_song' user_id=user_profile.user.id %}';
+            {% elif square_radio %}
+                var radion_song_url = '{% url 'public_radio_song' %}';
+            {% else %}
+                var radion_song_url = '{% url 'user_radio_song' user_id=user.id %}';
+            {% endif %}
+            var player_logs_url = '{% url 'record_player_logs' %}';
+
+            {% if user_profile %}
+            //user page, user_profile is the profile which belongs to that user.
+            var following_userid = {{ user_profile.user.id }};
+            var follow_url = '{% url 'sns.views.follow_user' %}';
+            {% endif %}
+
+        </script>
+        <script type="text/javascript" src="{{ STATIC_URL }}js/jquery.urlQueryString.js"></script>
+        <script type="text/javascript" src="{{ STATIC_URL }}js/thickbox3.1/thickbox-compressed.js"></script>
+        <script type="text/javascript" src="{{ STATIC_URL }}js/validationEngine/languages/jquery.validationEngine-cn.js"></script>
+        <script type="text/javascript" src="{{ STATIC_URL }}js/validationEngine/jquery.validationEngine.js"></script>
+        <script type="text/javascript" src="{{ STATIC_URL }}js/jQuery.jPlayer.2.1.0/jquery.jplayer.min.js"></script>
+        <script type="text/javascript" src="{{ STATIC_URL }}js/jQuery.jPlayer.2.1.0/jquery.transform.js"></script>
+        <script type="text/javascript" src="{{ STATIC_URL }}js/jQuery.jPlayer.2.1.0/jquery.grab.js"></script>
+        <script type="text/javascript" src="{{ STATIC_URL }}js/jQuery.jPlayer.2.1.0/mod.csstransforms.min.js"></script>
+        <script type="text/javascript" src="{{ STATIC_URL }}js/jQuery.jPlayer.2.1.0/circle.player.js"></script>
+        <script type="text/javascript" src="{{ STATIC_URL }}js/jQuery.jPlayer.2.1.0/radio.js"></script>
+        <script type="text/javascript" src="{{ STATIC_URL }}js/ui_widgets.js"></script>
+        {% block javascript %}{% endblock %}
+    </head>
+    <body id="m_tab1">
+        <div id="header_background">
+            <div id="header">
+                <div id="logo">
+                    <a href="{% url 'songs.views.my_home' %}"><img alt="dongting.fm" src="{{ STATIC_URL }}images/logo.png" /></a>
+                </div>
+                <div id="navigation">
+                    <a id="link_post" href="{% url 'songs.views.add_music' %}?height=460&width=400&modal=true" class="thickbox">
+                        +我要发布
+                    </a>
+                    <ul id="nav_ul">
+                        <li id="li_my_songs">
+                            <a href="{% url 'songs.views.my_home' %}">我的动听</a>
+                        </li>
+                        <li><a href="{% url 'home.views.index' %}">广场</a></li>
+                    </ul>
+                    <div id="link_login">
+                        <a id="link_user" href="{% url 'songs.views.my_home' %}">{{ user.username }}</a>  <a id="link_mails" href="{% url 'sns.views.private_mails' %}">私信</a> <a href="{% url 'accounts.views.user_settings' %}">设置</a> | <a href="{% url 'accounts.views.sign_out' %}">退出</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div id="song_genres">
+            <ul>
+                <li{% ifequal g_code 'all' %} class="current_genre"{% endifequal %}><a href="{% url 'home.views.index' %}">所有</a></li>
+                <li{% ifequal g_code 'pop' %} class="current_genre"{% endifequal %}><a href="{% url 'songs.views.song_list' genre_code='pop' %}">流行</a></li>
+                <li{% ifequal g_code 'rock' %} class="current_genre"{% endifequal %}><a href="{% url 'songs.views.song_list' genre_code='rock' %}">摇滚</a></li>
+                <li{% ifequal g_code 'folk' %} class="current_genre"{% endifequal %}><a href="{% url 'songs.views.song_list' genre_code='folk' %}">民谣</a></li>
+                <li{% ifequal g_code 'country' %} class="current_genre"{% endifequal %}><a href="{% url 'songs.views.song_list' genre_code='country' %}">乡村</a></li>
+                <li{% ifequal g_code 'jazz' %} class="current_genre"{% endifequal %}><a href="{% url 'songs.views.song_list' genre_code='jazz' %}">爵士</a></li>
+                <li{% ifequal g_code 'raggae' %} class="current_genre"{% endifequal %}><a href="{% url 'songs.views.song_list' genre_code='raggae' %}">雷鬼</a></li>
+                <li{% ifequal g_code 'classical' %} class="current_genre"{% endifequal %}><a href="{% url 'songs.views.song_list' genre_code='classical' %}">古典</a></li>
+                <li{% ifequal g_code 'new-age' %} class="current_genre"{% endifequal %}><a href="{% url 'songs.views.song_list' genre_code='new-age' %}">New Age</a></li>
+                <li{% ifequal g_code 'world' %} class="current_genre"{% endifequal %}><a href="{% url 'songs.views.song_list' genre_code='world' %}">World Music</a></li>
+                <li{% ifequal g_code 'others' %} class="current_genre"{% endifequal %}><a href="{% url 'songs.views.song_list' genre_code='others' %}">其它</a></li>
+
+            </ul>
+        </div>
+        <div class="clear"></div>
+
+        <div id="content">
+            <div id="page">
+               {% block page %}{% endblock %}
+            </div>
+        </div>
+        <div id="roll"><div title="回到顶部" id="roll_top"></div><div title="转到底部" id="roll_bottom"></div></div>
+
+        <div class="clear"></div>
+
+        {% block footer %}
+        <div id="footer">
+            <p>&copy;&nbsp;Copyright 2012. All Rights Reserved.  <a href="{% url 'home.views.index' %}">动听FM</a> | <a href="/about/">关于(Contact Me)</a></p>
+        </div>
+        {% endblock %}
+
+        {% if sql_queries %}
+        <h3>{{ sql_queries|length }} SQL excute in this Request</h3>
+        <!-- debug: show the sql excute in this request -->
+        {% for query in sql_queries %}<h3>Excute times: {{query.time}}</h3>
+        <p>
+        <code>
+        {{query.sql}}
+        </code>
+        </p>
+        {% endfor %}<!-- debug ends here -->
+        {% endif %}
+
+    </body>
+</html>

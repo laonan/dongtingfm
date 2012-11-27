@@ -1,0 +1,129 @@
+{% extends "m_login_base.html" %}
+{% load url from future %}
+{% block title %}微博绑定{% endblock %}
+{% block style %}
+<link href="{{ STATIC_URL }}css/reg.css" rel="stylesheet"type="text/css" />
+{% endblock %}
+{% block javascript %}
+<script type="text/javascript">
+$(document).ready(function() {
+	
+	$('#reg_form').validationEngine({scroll:false});
+
+	$('#btn_reg_submit').click(function() {
+    	var ret = validateCaptcha();
+    	return ret
+    });
+       
+    $('#link_change_captcha').click( function() {
+    	$.get('{% url 'common.views.get_single_captcha' %}', function(data) {
+	        $('#div_captcha').html(data);
+	    });
+    });
+    
+    $('.thickbox').click( function() {
+    	$('#reg_form').validationEngine('hideAll');
+    });
+    
+    $('#id_captcha_1').blur( function() {
+    	validateCaptcha();
+    });
+    
+    function validateCaptcha()
+    {
+    	var ret = true
+    	captchaValue = $('#id_captcha_1').val();
+    	if(captchaValue == null || captchaValue == '') {
+    		$('#id_captcha_1').validationEngine('showPrompt', '* 必填', '', 'bottomRight', true)
+    		ret = false;
+    	} else {
+    		$('#id_captcha_1').validationEngine('hide');
+    	}
+    	$("#reg_form").validationEngine('detach');
+    	$('#reg_form').validationEngine({scroll:false});
+    	$("#reg_form").validationEngine('attach');
+    	
+    	return ret;
+    }
+ });
+</script>
+{% endblock %}
+{% block page %}
+<div class="box corners" style="overflow: auto;">
+<div>欢迎来自 新浪微博<img src="{{ STATIC_URL }}images/api/sbutton1.png"> 的 {{ weibo_username }}，完善信息后即可使用新浪微博帐号一键登录 动听FM，<br /> 从未注册过本站的，请在下面补充信息。</div>
+<div id="bind_weibo_box">
+	<div id="new_user">
+		 <form id="reg_form" action="" method="post">{% csrf_token %}
+		 	<ul id="ul_reg">
+		 	    <li>
+		 	    	<label>E-mail：</label> {{ form.email }}
+		 	    	
+		 	    {% if form.email.errors %}
+		            <span class="error_span">
+		            {% for error in form.email.errors %}
+		                {{ error|escape }}
+		            {% endfor %}
+		            </span>
+		        {% else %}
+		            <span>用于登录和验证，系统不会公布您的邮箱地址</span>
+		        {% endif %}
+		        
+		 	    </li>
+		 	    <li>
+                     <label>密码：</label>
+		 	    	 <input id="id_password" type="password" class="validate[required,minSize[6]] text-input" name="password" maxlength="30" />
+                     <span>设置本站密码</span>
+		 	    </li>
+                <li>
+                    <label>确认密码：</label>
+                    <input id="id_password1" type="password" class="validate[required,equals[id_password]] text-input" name="password1" maxlength="30" />
+                </li>
+		 	    <li>
+		 	    	<label>昵称：</label> {{ form.username }}
+		 	    	
+		 	    {% if form.username.errors %}
+		            <span class="error_span">
+		            {% for error in form.username.errors %}
+		                {{ error|escape }}
+		            {% endfor %}
+		            </span>
+		        {% else %}
+		            <span>最短2个字符</span>
+		        {% endif %}
+		 	    </li>
+		 	    <li>
+		 	    	<label>验证码：</label>
+		 	    	<div id="div_captcha">
+		 	    	{{ form.captcha }}
+		 	   {% if form.captcha.errors %}
+		            <span class="error_span">
+		            {% for error in form.captcha.errors %}
+		                {{ error|escape }}
+		            {% endfor %}
+		            </span>
+		        {% endif %}
+		 	    	</div>
+		 	    	<div id="div_change_captcha">看不清？<a id="link_change_captcha" href="javascript:void(0);">换一个</a></div>
+		 	    
+		        	<div class="clear"></div>
+		 	    	</li>
+			</ul>
+			<div class="separator">&nbsp;</div><br />
+			<input checked="checked" id="id_update_msg" name="update_msg" type="checkbox" /> <label>同时发布一条微博告诉朋友们(限140字)：</label> <br /> <br />
+		 	<textarea id="id_bind_msg" name="bind_msg" rows="3" cols="70" class="validate[maxSize[140]]">Hi,我已经成功绑定动听FM，动听FM是一个在网络丛林里发现音乐，发现相同音乐口味的人的地方。@动听FM http://www.dongting.fm</textarea>
+			
+			<p>
+		    	<input id="btn_reg_submit" type="submit" class="btn" value="提交注册"/>
+		    </p>
+		</form>
+	</div>
+	<div id="old_user">
+		<p>我已经有动听账号</p>
+		<a href="{% url 'bind_weibo_user' %}">
+			<img src="{{ STATIC_URL }}images/btn_bind_1.gif">
+		</a>
+	</div>
+</div>
+<br />
+</div>
+{% endblock %}

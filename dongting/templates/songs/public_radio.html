@@ -1,0 +1,87 @@
+﻿{% extends "m_login_base.html" %}
+{% load url from future %}
+{% block title %}[{{ song.title }} - {{ song.singer }}]{% endblock %}
+{% block style %}
+{% if song.audio_url %}
+    <link href="{{ STATIC_URL }}js/jQuery.jPlayer.2.1.0/dongting.skin/circle.player.css" rel="stylesheet" type="text/css" media="screen" />
+{% endif %}
+    <link href="{{ STATIC_URL }}css/public_radio.css" rel="stylesheet" type="text/css" media="screen" />
+{% endblock %}
+{% block javascript %}
+{% if song.audio_url %}
+    <script type="text/javascript" src="{{ STATIC_URL }}js/jQuery.jPlayer.2.1.0/jquery.jplayer.min.js"></script>
+    <script type="text/javascript" src="{{ STATIC_URL }}js/jQuery.jPlayer.2.1.0/jquery.transform.js"></script>
+    <script type="text/javascript" src="{{ STATIC_URL }}js/jQuery.jPlayer.2.1.0/jquery.grab.js"></script>
+    <script type="text/javascript" src="{{ STATIC_URL }}js/jQuery.jPlayer.2.1.0/mod.csstransforms.min.js"></script>
+    <script type="text/javascript" src="{{ STATIC_URL }}js/jQuery.jPlayer.2.1.0/circle.player.js"></script>
+<script type="text/javascript">
+//<![CDATA[
+$(document).ready(function(){
+    var myCirclePlayer = new CirclePlayer("#jquery_jplayer_1",
+            {
+                mp3: "{{ song.audio_url }}"
+            }, {
+                cssSelectorAncestor: "#cp_container_1",
+                swfPath: "{{ STATIC_URL }}js/jQuery.jPlayer.2.1.0/Jplayer.swf",
+                supplied: "mp3",
+                wmode: "window",
+                ended: function() { // The $.jPlayer.event.ended event
+                    $('#jquery_jplayer_1').jPlayer("play");
+                },
+                error: function(event) {
+                    //alert("Error Event: type = " + event.jPlayer.error.type);
+                }
+            });
+});
+//]]>
+</script>
+
+{% endif %}
+
+{% endblock %}
+
+{% block page %}
+<div class="box cornerr">
+<h2>{{ song.title }} -- {{ song.singer }}</h2>
+<span>posted by {{ song.user.username }} {{ song.post_datetime }}</span>
+<a href="{% url 'songs.views.radio' uid=song.user.id %}">去TA的电台听听？</a>
+</div>
+<div id="player_box" class="box corners">
+    {% if song.audio_url %}
+        <div style="background-color: #f0f0f0;">
+            <!-- The jPlayer div must not be hidden. Keep it at the root of the body element to avoid any such problems. -->
+            <div id="jquery_jplayer_1" class="cp-jplayer"></div>
+
+            <!-- The container for the interface can go where you want to display it. Show and hide it as you need. -->
+
+            <div id="cp_container_1" class="cp-container">
+                <div class="cp-buffer-holder"> <!-- .cp-gt50 only needed when buffer is > than 50% -->
+                    <div class="cp-buffer-1"></div>
+                    <div class="cp-buffer-2"></div>
+                </div>
+                <div class="cp-progress-holder"> <!-- .cp-gt50 only needed when progress is > than 50% -->
+                    <div class="cp-progress-1"></div>
+                    <div class="cp-progress-2"></div>
+                </div>
+                <div class="cp-circle-control"></div>
+                <ul class="cp-controls">
+                    <li><a href="javascript:void(0);" class="cp-play" tabindex="1">play</a></li>
+                    <li><a href="javascript:void(0);" class="cp-pause" style="display:none;" tabindex="1">pause</a></li> <!-- Needs the inline style here, or jQuery.show() uses display:inline instead of display:block -->
+                </ul>
+            </div>
+        </div>
+	{% endif %}
+	
+	{% if song.flash_url %}
+    <div id="swf_box">
+	<object classid='clsid:D27CDB6E-AE6D-11cf-96B8-444553540000' width='{{ song.flash_width }}' height='{{ song.flash_height }}' id='bdmp3widget7322'>
+    	<param name='movie' value='{{ song.flash_url }}'></param>
+    	<param name='wmode' value='opaque'></param>
+    	<param name='allowscriptaccess' value='always'></param>
+    	<embed src='{{ song.flash_url }}' type='application/x-shockwave-flash' wmode='opaque' allowscriptaccess='always' width='{{ song.flash_width }}' height='{{ song.flash_height }}' name='bdmp3widget7322'></embed>
+	</object>
+    </div>
+	{% endif %}
+</div>
+
+{% endblock %}

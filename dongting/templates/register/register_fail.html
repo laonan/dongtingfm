@@ -1,0 +1,14 @@
+{% extends "m_login_base.html" %}
+{% load url from future %}
+{% block title %}注册失败{% endblock %}
+
+{% block page %}
+
+<h2>注册失败</h2> 
+ 
+<p>
+	系统繁忙，您可以发邮件到laonan*dongting.fm(*号换成@)通知系统管理员。或者：
+	<a href="{% url 'accounts.views.register' %}">重新注册</a>
+</p> 
+ 
+{% endblock %}

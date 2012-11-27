@@ -1,0 +1,58 @@
+{% load url from future %}
+<script type="text/javascript">
+$(document).ready(function() {
+	var username = $('#txt_target_username').val();
+	if(!$('#link_follow').is(':visible')) {
+		$('#sp_msg').text('您确定要取消拉黑"' + username + '"吗？');
+		$('#img_block').attr('src', static_url + 'images/unlock.png');
+	} else {
+		$('#sp_msg').text('您确定要拉黑"' + username + '"吗？拉黑会同时解除对方的关注。');
+		$('#img_block').attr('src', static_url + 'images/block_2.png');
+	}
+	
+	$('#btn_close_dialog').click(function () {
+		tb_remove();
+	});
+	
+	$('#btn_confirm').click(function() {
+		$.ajax({
+				type: 'GET',
+				contentType: 'application/json',
+				url: '{% url 'sns.views.bad_guy' %}',
+				data: 'uid=' + $('#txt_target_userid').val(),
+				dataType: 'json',
+				beforeSend: function() {
+				},
+				error: function (XmlHttpRequest, textStatus, errorThrown){
+				}, 
+				success: function(jsonData) {
+					if(jsonData.excuted) {
+						if(jsonData.action == 'add') {
+							$('#link_block_user').text('[取消拉黑]');
+							$('#link_follow').hide();
+							$('#link_private_mail').hide();
+						}
+						
+						if(jsonData.action == 'delete') {
+							$('#link_block_user').html('<img src="' + static_url + 'images/block.gif">[加入黑名单]');
+							$('#link_follow').show();
+							$('#link_private_mail').show();
+						}
+					}
+					
+					tb_remove();
+				}
+			});
+	});
+});
+</script>
+<div class="center">
+	<img id="img_block" src="{{ STATIC_URL }}images/block_2.png">
+	<span id="sp_msg">您确定要拉黑"XXXXXX"吗？拉黑会同时解除对方的关注。</span>
+</div>
+<div class="clear"></div>
+<br>
+<div class="center">
+	<input type="button" id="btn_confirm" class="btn" value="确 定">
+	<input type="button" id="btn_close_dialog" class="btn" value="取 消">
+</div>

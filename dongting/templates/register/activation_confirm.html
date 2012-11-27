@@ -1,0 +1,17 @@
+{% extends "m_login_base.html" %}
+{% load url from future %}
+{% block title %}激活用户{% endblock %}
+
+{% block javascript %}{% endblock %}
+
+{% block page %}
+<div class="box corners">
+{% if validlink %}
+<h2>账号激活成功！现在您可以：</h2>
+<p><a href="{% url 'accounts.views.sign_in' %}">登录网站</a></p>
+{% else %}
+<h2>账号激活失败</h2> 
+<p>链接无效，或者是激活连接已经被使用过。<a href="{% url 'accounts.views.reactive' %}">重新发送激活链接</a></p>
+{% endif %}
+</div>
+{% endblock %}

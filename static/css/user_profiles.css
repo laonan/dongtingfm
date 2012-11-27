@@ -1,0 +1,29 @@
+#post_user {
+	margin: 0 0 10px 0;
+	padding: 10px;
+	overflow: auto;
+}
+
+#post_user label {
+	display: block;
+	border-bottom: #cccccc 1px solid;
+	padding-bottom: 4px;
+	font-weight: bold;
+	margin: 0 0 6px 0;
+}
+
+#post_user .post_user_info {
+	float: left;
+	margin: 0 0 0 10px;
+	--padding: 4px;
+}
+#post_user .post_user_info span {
+	color: #808080;
+}
+
+#post_user .pst_user_bottom {
+	margin: 6px 0 0 0;
+	border-top: #f0f0f0 1px solid;
+	text-align: right;
+	padding: 0 8px 0 0;
+}

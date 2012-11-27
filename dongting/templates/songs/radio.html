@@ -1,0 +1,93 @@
+{% extends "m_login_base.html" %}
+{% load url from future %}
+{% load filters %}
+{% block title %}{% if radio_user %}{{ radio_user.username }}{% else %}广场{% endif %}的电台{% endblock %}
+{% block style %}
+    <link href="{{ STATIC_URL }}js/jQuery.jPlayer.2.1.0/dongting.skin/circle.player.css" rel="stylesheet" type="text/css" media="screen" />
+    <link href="{{ STATIC_URL }}css/radio.css" rel="stylesheet" type="text/css" media="screen" />
+{% endblock %}
+{% block javascript %}
+    <script type="text/javascript">
+        var static_url = '{{ STATIC_URL }}';
+        {% if radio_user %}
+            var radion_song_url = '{% url 'user_radio_song' user_id=radio_user.id %}';
+        {% else %}
+            var radion_song_url = '{% url 'public_radio_song' %}';
+        {% endif %}
+        var player_logs_url = '{% url 'record_player_logs' %}';
+    </script>
+    <script type="text/javascript" src="{{ STATIC_URL }}js/jQuery.jPlayer.2.1.0/jquery.jplayer.min.js"></script>
+    <script type="text/javascript" src="{{ STATIC_URL }}js/jQuery.jPlayer.2.1.0/jquery.transform.js"></script>
+    <script type="text/javascript" src="{{ STATIC_URL }}js/jQuery.jPlayer.2.1.0/jquery.grab.js"></script>
+    <script type="text/javascript" src="{{ STATIC_URL }}js/jQuery.jPlayer.2.1.0/mod.csstransforms.min.js"></script>
+    <script type="text/javascript" src="{{ STATIC_URL }}js/jQuery.jPlayer.2.1.0/circle.player.js"></script>
+    <script type="text/javascript" src="{{ STATIC_URL }}js/jQuery.jPlayer.2.1.0/radio.js"></script>
+{% endblock %}
+{% block page %}
+<div>
+    <div id="outer_jPlayer">
+        <div id="radio_header" class="box corners">
+
+                {% if radio_user_profile.avatar %}
+                    <img src="{{ MEDIA_URL }}{{ radio_user_profile.avatar }}" alt="avatar">
+                {% else %}
+                    <img src="{{ STATIC_URL }}images/default_avatar.jpg" alt="avatar">
+                {% endif %}
+
+            <h2>{% if radio_user %}{{ radio_user.username }}的电台{% else %}广场公共电台{% endif %}</h2>
+
+        </div>
+        <div id="radio_info" class="box corners">
+            <div id="player_box" >
+                <div style="background-color: #f0f0f0;">
+                    <!-- The jPlayer div must not be hidden. Keep it at the root of the body element to avoid any such problems. -->
+                    <div id="jquery_jplayer_1" class="cp-jplayer"></div>
+
+                    <!-- The container for the interface can go where you want to display it. Show and hide it as you need. -->
+
+                    <div id="cp_container_1" class="cp-container">
+                        <div class="cp-buffer-holder"> <!-- .cp-gt50 only needed when buffer is > than 50% -->
+                            <div class="cp-buffer-1"></div>
+                            <div class="cp-buffer-2"></div>
+                        </div>
+                        <div class="cp-progress-holder"> <!-- .cp-gt50 only needed when progress is > than 50% -->
+                            <div class="cp-progress-1"></div>
+                            <div class="cp-progress-2"></div>
+                        </div>
+                        <div class="cp-circle-control"></div>
+                        <ul class="cp-controls">
+                            <li><a href="javascript:void(0);" class="cp-play" tabindex="1">play</a></li>
+                            <li><a href="javascript:void(0);" class="cp-pause" style="display:none;" tabindex="1">pause</a></li> <!-- Needs the inline style here, or jQuery.show() uses display:inline instead of display:block -->
+                        </ul>
+                    </div>
+                </div>
+
+            </div>
+            {% if radio_user %}
+                <div>
+                    {{ radio_user_profile.intro }}
+                </div>
+            {% endif %}
+             <div>
+                 <label>地址：</label>{{ curr_url }}
+             </div>
+             <div>
+                 <label>地区：</label>{% if radio_user %}{{ radio_user_profile.city }}&nbsp;{% else %}全世界{% endif %}
+             </div>
+            <div class="clear"></div>
+            <div>
+                {% if radio_user %}<a target="_blank" href="{% url 'songs.views.songs_by_user' uid=radio_user.id %}">&gt;查看更多关于{{ radio_user.username }}的内容</a>{% else %}<a href="{% url 'home.views.index' %}">&gt;进入广场</a> {% endif %}
+                %} <a target="_blank" href="{% url 'accounts.views.register' %}">&gt;我也想要这么一个电台</a>{% endif %}
+            </div>
+        </div>
+        <div class="box corners">
+            <a href="{% url 'home.views.index' %}">&gt;返回动听FM首页</a>
+        </div>
+    </div>
+    <div id="user_summary" class="box corners">
+        {% for song in radio_user_songs %}
+        <div class="song_intro">[{{ song.title|escape }}] - {{ song.intro|escape }} <span class="fdate">-- {{ song.post_datetime|friendly_time }}</span></div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}

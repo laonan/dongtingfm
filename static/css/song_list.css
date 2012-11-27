@@ -1,0 +1,176 @@
+#div_genre_name {
+	font-size: 14px;
+	margin: 0 0 15px 0;
+	padding: 0 0 5px 4px;
+	color: #808080;
+	border-bottom: #f0f0f0 1px solid;
+}
+
+#div_genre_name label {
+	font-weight: bold;
+}
+
+/* begin css tabs */
+ 
+.UI_tabMenu { background:#FFF; margin-bottom:12px;}
+.UI_tabMenu * { margin:0; padding:0; list-style:none; }
+.UI_tabMenu ul { font-size:12px; height:2em; padding-left:25px; padding-bottom:1px; background:url(../images/UI_tabMenu.png) repeat-x bottom; }
+.UI_tabMenu li { float:left; margin-right: 6px; }
+.UI_tabMenu li a, .UI_tabMenu li a span { display:block; height:2em; line-height:2em; background-image: url(../images/UI_tabMenu.png); background-color:#e6eff6; background-repeat:no-repeat; font-family:'微软雅黑'; _float:left; }
+.UI_tabMenu li a { padding-left:15px; font-weight:700; text-decoration:none; background-position:left -100px; color:#476e89; cursor:pointer; }
+.UI_tabMenu li a span { padding-right:10px; background-position: right -100px; }
+.UI_tabMenu li a:hover { text-decoration:none; background-position:left top; background-color:#d3e3ef; }
+.UI_tabMenu li a:hover span { background-position:right top; background-color:#d3e3ef; }
+.UI_tabMenu li a:active { margin-top:-2px; padding-bottom:2px; }
+.UI_tabMenu li a.on, .UI_tabMenu li a.on:hover,.UI_tabMenu li a.on:active { margin-top:0; padding-bottom:1px; _margin-bottom:-1px; _position:relative; _z-index:3; background-position:left -300px; background-color:#FFF; }
+.UI_tabMenu li a.on span, .UI_tabMenu li a.on:hover span { background-position:right -300px; background-color:#FFF; color:#333; cursor:default; }
+.UI_tabMenu li a.add, .UI_tabMenu li a.add span { background:transparent none; }
+.UI_tabMenu li a.add:hover, .UI_tabMenu li a.add:hover span { text-decoration:underline; background: url(../images/UI_tabMenu.png) no-repeat right -200px; }
+.UI_tabMenu li a span em{color:#ff0000;}
+.UI_tabMenu li a{border:none;}
+ 
+/* end css tabs */
+
+
+
+.song_show {
+	margin: 0 0 15px 0;
+	overflow: hidden;
+	padding: 0 0 4px 0;
+	border-bottom: #d5f0fc 1px solid;
+}
+
+.song_show ul {
+	list-style-type: none;
+	padding: 6px 0 0 0;
+	margin: 0px;
+	float: left;
+	width: 64px;
+	height: 80px;
+	background: url(../images/digg_bg.png) no-repeat right 0px;
+}
+
+.song_show ul li {
+	text-align: center;
+	margin: 0px;
+	padding: 0px;
+}
+
+.song_show ul li a {
+	display: block;
+	width: 60px;
+	height: 40px;
+	margin: 18px 0 0 0;
+	border: none;
+}
+
+.song_show ul li span {
+	font-weight: bold;
+	font-size: 14px;
+	color: #443b00;
+	
+}
+
+.song_show dl {
+	float: left;
+	margin: 0 0 0 10px;
+	width: 460px;
+}
+
+.song_show dl dt a {
+	font-size: 14px;
+	font-weight: bold;
+}
+
+.song_show dl dd label {
+	color: #b2b1b1;
+}
+
+.song_show dl dd span {
+	color: #5e5d5d;
+	margin-right: 8px;
+}
+
+.song_show dl dd .datetime {
+	color: #cccccc;
+}
+
+.song_show dl dd a {
+ 	margin-left: 8px;
+ }
+
+#song_source_intro .artist_headshot {
+	float: right;
+	margin: 0 8px 0 8px;
+}
+
+#song_source_intro {
+	margin: 6px 0 6px 0;
+	overflow: hidden;
+}
+
+.pagination {
+	
+}
+
+#song_source_intro {
+	line-height: 13pt;
+}
+
+#garysings{
+	border:#cccccc 1px solid;
+	background-color: #f0f0f0;
+	padding: 20px;
+	margin: 6px 0 6px 0;
+}
+.playbtn {
+	display:none;
+	width:22px;
+	height:22px;
+	background:transparent url(../images/player/play.png) no-repeat center center;
+}
+.playbtn:hover {
+	background:transparent url(../images/player/play-light.png) no-repeat center center;
+}
+.pausebtn {
+	display:none;
+	width:22px;
+	height:22px;
+	background:transparent url(../images/player/pause.png) no-repeat center center;
+}
+.pausebtn:hover {
+	background:transparent url(../images/player/pause-light.png) no-repeat center center;
+}
+.playerloading{
+	display:none;
+	width:22px;
+	height:22px;
+	background:transparent url(../images/player/loading.gif) no-repeat center center;
+}
+
+#new_user_guid {
+	text-align: left;
+}
+
+#new_user_guid span {
+	margin: 0 0 0 4px;
+}
+
+#new_user_guid .new_user_guid_content {
+	margin: 10px 0 0 0;
+	padding: 8px;
+	background-color: #f0f0f0;
+	line-height: 23px;
+}
+
+#ord_banner {margin: 0 0 10px 0;padding: 0 0 8px 0;}
+#ord_banner span {color: #ff0000;}
+
+#update_msg {
+	text-align:right;
+	background: #FFF4E7;
+	padding: 8px 20px 8px 20px;
+	margin-bottom: 12px;
+	border: #fae6ce 1px solid;
+	display:none;
+}

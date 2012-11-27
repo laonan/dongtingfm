@@ -1,0 +1,27 @@
+{% extends "m_login_base.html" %}
+{% load url from future %}
+{% block title %}重新发送激活邮件{% endblock %}
+{% block javascript %}
+<script language="javascript" type="text/javascript">
+	$(document).ready(function() {
+		$("#id_email").addClass('validate[required,custom[email]] text-input');
+		$("#activation_reset_form").validationEngine({scroll:false});
+	});
+</script>
+{% endblock %}
+ 
+{% block page %}
+<div class="box corners">
+<h2>重新发送激活邮件</h2> 
+ 
+<p>请在下面输入您的注册邮箱，请注意发送次数不要太频繁，否则可能会被当成垃圾邮件处理</p> 
+ 
+<form id="activation_reset_form" action="" method="post">{% csrf_token %}
+{% if form.email.errors %}
+<span class="errorlist">该电子邮件地址没有关联任何可用的用户帐号，或者已经被激活。如忘记密码，请 <a href="{% url 'django.contrib.auth.views.password_reset' %}">找回密码</a>。</span>
+{% endif %}
+<p><label for="id_email">E-mail: </label> {{ form.email }} <input class="btn" type="submit" value="发送" /></p> 
+</form> 
+<br />
+</div>
+{% endblock %}

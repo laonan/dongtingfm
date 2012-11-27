@@ -1,0 +1,38 @@
+{% extends "m_login_base.html" %}
+{% load url from future %}
+{% block title %}绑定微博{% endblock %}
+{% block javascript %}
+<script type="text/javascript">
+$(document).ready(function() {
+    $('#login_form').validationEngine({scroll:false});
+ });
+ </script>
+{% endblock %}
+
+{% block page %}
+<div class="box corners" style="padding:45px">
+<div>欢迎来自 新浪微博<img src="{{ STATIC_URL }}images/api/sbutton1.png"> 的 {{ weibo_username }}，绑定后即可使用新浪微博帐号一键登录 动听FM</div>
+<div id="login_box">
+	<div>
+		<form id="login_form" action="" method="post">{% csrf_token %}
+			<p><label for="email">E-mail:</label> <input class="validate[required,custom[email]] input_l" type="text" name="email" value="{{ input_email }}" id="email"> (在动听FM的登录Email)</p>
+			<p><label for="password">密 码:</label> <input class="validate[required] input_l" type="password" name="password" value="" id="password"> (在动听FM的密码，不是新浪微博的)</p>
+			<p class="separator">&nbsp;</p><br />
+			<input checked="checked" id="id_update_msg" name="update_msg" type="checkbox" /> <label>同时发布一条微博告诉朋友们(限140字)：</label> <br /> <br />
+		 	<textarea id="id_bind_msg" name="bind_msg" rows="3" cols="80" class="validate[maxSize[140]]">Hi,我已经成功绑定动听FM，动听FM是一个在网络丛林里发现音乐，发现相同音乐口味的人的地方。@动听FM http://dongting.fm</textarea>
+			
+			<p id="login_buttons">
+				<input class="btn" id="btn_submit_login" type="submit" value="登录并绑定新浪微博" />
+			</p>
+		</form>
+	</div>
+	<div>
+		{% if login_failure %}
+		<div class="error"> 
+		    <span class="errorlist">登录失败！ 请确认用户密码重试。</span> <br>
+		</div>
+		{% endif %}
+	</div>
+</div>
+</div>
+{% endblock %}

@@ -1,0 +1,110 @@
+{% load url from future %}
+<script type="text/javascript">
+	var get_mp3_info_url = '{% url "songs.views.get_mp3_info" %}';
+	var get_song_cover_url = '{% url "songs.views.get_song_cover" %}';
+</script>
+<script src="{{ STATIC_URL }}js/tabs.js" type="text/javascript"></script>
+<script src="{{ STATIC_URL }}js/songs/add_music.js" type="text/javascript"></script>
+<div class="add_music_msg">
+	1、输入歌曲链接时请注意空格和折行等问题。<br>
+	2、带星号为必填项。
+</div>
+<div id="add_music_basic_info">
+	<form id="add_music_form" action="{% url 'songs.views.add_music' %}" method="post">
+		{% csrf_token %}
+		<input type="hidden" value="False" id="song_exist_ret" name="song_exist_ret">
+		<ul class="tabs">
+		    <li><a href="#tab1">歌曲链接</a></li>
+		    <li><a href="#tab2">Flash</a></li>
+		</ul>
+
+		<div class="tab_container">
+		    <div id="tab1" class="tab_content">
+		       {{ form.audio_url }}<span>(mp3文件)</span><a target="_blank" href="{{ STATIC_URL }}help/help-mp3.html">帮助</a><br><br>
+		       <input id="add_to_playlist" name="add_to_playlist" checked="checked" type="checkbox"> 歌曲加入我的电台播放列表 
+		       {% if weibo_user_ret %}
+		       <input id="share_to_weibo" name="share_to_weibo" checked="checked" type="checkbox"> 分享到新浪微博
+		       <img src="{{ STATIC_URL }}images/api/sbutton1.png">
+		       {% endif %}
+		    </div>
+		    <div id="tab2" class="tab_content">
+		       {{ form.flash_url }}<span>(swf文件)</span><a target="_blank" href="{{ STATIC_URL }}help/help-swf.html">帮助</a><br><br>
+		       {% if weibo_user_ret %}
+		       <input id="share_swf_to_weibo" name="share_swf_to_weibo" checked="checked" type="checkbox"> 分享到新浪微博
+		       <img src="{{ STATIC_URL }}images/api/sbutton1.png">
+		       {% endif %}
+		    </div>
+		</div>
+		<div class="separator">&nbsp;</div>
+		<div id="song_details">
+			<div class="add_music_field">
+				<label for="id_title">歌曲名(<span>*</span>)：</label>
+				{{ form.title }}
+			</div>
+			<div class="add_music_field">
+				<label for="id_singer">歌者：</label>
+				{{ form.singer }}
+			</div>
+			<div class="add_music_field">
+				<label for="id_album">专辑：</label>
+				{{ form.album }}
+			</div>
+			<div class="add_music_field">
+				<label for="id_genre">流派(<span>*</span>)：</label>
+				{{ form.genre }}
+			</div>
+		</div>
+		<div id="artist_headshot">
+			<img id="img_musician" alt="musician" src="{{ STATIC_URL }}images/artist.png">
+			<a id="link_add_artist_headshot" class="thickbox" href="#TB_inlineIn?height=200&width=400&inlineId=add_music_artist_headshot">添加/修改头像</a>
+			{{ form.song_cover_url }}
+		</div>
+		<div class="clear"></div>
+		<div id="txt_intro" class="add_music_field">
+			<label for="id_intro">简介(限140字)：</label>
+			{{ form.intro }}
+		</div>
+		<div class="separator">&nbsp;</div>
+		<br>
+		<div class="center">
+			<input id="btn_submit_add" class="btn" type="submit" value="发布" />
+			<input id="btn_cancel_add" class="btn" type="button" value="返回" >
+		</div>
+	</form>
+</div>
+<div id="add_music_artist_headshot">
+	<form id="upload_headshot_form" action="{% url 'songs.views.upload_artist_headshot' %}" method="POST" enctype="multipart/form-data">
+    	{% csrf_token %}
+    	<div id="left_upload">
+	    	<div class="upload_field">
+				<label for="txt_artist">艺术家：</label><input id="id_artist_name" name="id_artist_name" class="validate[required] text-input" type="text">
+			</div>
+			<div class="upload_field">
+				<label for="id_headshot">头像：</label>
+				<input id="id_headshot" class="validate[required]" type="file" name="id_headshot">
+			</div>
+		</div>
+		<div id="right_upload">
+			<img id="img_musician_1" alt="musician" src="{{ STATIC_URL }}images/artist.png">
+		</div>
+		<div class="clear"></div>
+		<div class="separator">&nbsp;</div>
+		<br>
+		<div class="center">
+			<input type="submit" value="上传" class="btn" id="btn_upload">
+			<input type="button" class="btn" value="返回" id="btn_back">
+		</div>
+	</form>
+</div>
+<div id="exist_song">
+	<div id="exist_song_content"></div>
+	<div id="exist_seprator" class="separator">&nbsp;</div>
+	<div id="exist_buttons" class="center">
+		<input type="button" class="btn" value="这不是我要发布的歌曲,返回" id="btn_continue">
+		<input type="button" class="btn" value="去看看" id="btn_song_detail">
+		<input type="button" class="btn" value="关闭" id="btn_close">
+	</div>
+</div>
+<a id="link_back" style="display:none" href="#TB_inlineIn?height=460&width=400&inlineId=add_music_baseInfo" class="thickbox">返回</a>
+<a id="link_show_exist_song" style="display:none" href="#TB_inlineIn?height=240&width=400&inlineId=exist_song" class="thickbox">查看存在的歌曲信息</a>
+

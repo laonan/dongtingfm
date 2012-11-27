@@ -1,0 +1,20 @@
+{% load url from future %}
+{% autoescape off %}
+您好：
+ 
+您的朋友{{ user.username }} 诚挚地邀请您加入 {{ site_name }} ，一起体验动听音乐电台。
+
+网站注册地址：{{ protocol }}://{{ domain }}{% url 'accounts.views.register' %}
+
+您的朋友在动听FM上的电台为：{{ protocol }}://{{ domain }}{% url 'songs.views.songs_by_user' uid=user.id %}
+
+
+如果您的E-mail程序不支持链接点击，请将上面的地址拷贝至您的浏览器(例如IE)的地址栏进入 {{ site_name }}。
+
+希望您能在 {{ site_name }} 找到口味相同的音乐朋友。
+
+{{ site_name }} 支持团队。
+
+(这是一封自动产生的E-mail，请勿回复。)
+
+{% endautoescape %}

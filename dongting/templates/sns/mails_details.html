@@ -1,0 +1,135 @@
+﻿{% extends "m_sections.html" %}
+{% load url from future %}
+﻿{% load filters %}
+{% block title %} 我和{{ partner_username }}的对话 {% endblock %}
+{% block style %}
+<link href="{{ STATIC_URL }}css/private_mails.css" rel="stylesheet" type="text/css" media="screen" />
+{% endblock %}
+
+{% block javascript %}
+<script src="{{ STATIC_URL }}js/NiftyCube/niftycube.js" type="text/javascript"></script>
+<script type="text/javascript">
+	window.onload = function(){
+		Nifty("div.xMailContent","middle same-height transparent");
+	}
+	var private_mails_url = '{% url 'sns.views.private_mails' %}';
+</script>
+<script src="{{ STATIC_URL }}js/mails_details.js" type="text/javascript"></script>
+{% endblock %}
+
+{% block content %}
+<div id="mails_details_title">
+	<label>我和“{{ partner_username }}”的对话：</label>
+	<a href="{% url 'sns.views.private_mails' %}">
+		&lt;&lt;返回所有私信
+	</a>
+</div>
+
+<div class="clear"></div>
+
+<div class="MailContent">
+	<div class="avatar_small">
+	{% if in_blacklist %}
+		<img src='{{ STATIC_URL }}images/dt_assistant.png'>
+	{% else %}
+		{% if user.get_profile and user.get_profile.avatar %}
+		<img src='{{ MEDIA_URL }}{{ user.get_profile.avatar }}'>
+		{% else %}
+		<img src='{{ STATIC_URL }}images/default_avatar.jpg'>
+		{% endif %}
+	{% endif %}
+	</div>
+	<div class="xLeft_point">&nbsp;</div>
+	{% if in_blacklist %}
+	<div class="xMailContent"> <span style="color:red">系统提示：{{ blacklist_msg }}</span> </div>
+	{% else %}
+	<div class="xMailContent">
+		<form id="send_form" action="{% url 'sns.views.send_private_mail' %}" method="post">{% csrf_token %}
+			<input type="hidden" value="{{ partner_username }}" id="id_to_user" name="to_user">
+			<textarea id="id_mail_content" name="mail_content" class="validate[required,maxSize[300]]" rows="6" cols="45" style="overflow:hidden;" onpropertychange="this.style.height=this.scrollHeight + 'px'" oninput="this.style.height=this.scrollHeight + 'px'"></textarea>
+			<br /><br />
+			<input type="submit" id="btn_send" class="btn" value="发私信给{{ partner_username }}">
+			<span>最多300个字</span>
+		</form>
+	</div>
+	{% endif %}
+</div>
+
+<div class="clear"></div>
+
+{% for mail in mails.object_list %}
+<div class="MailContent">
+	{% ifequal mail.from_user_id user.id %}
+	<div class="avatar_small">
+		{% if current_user_avatar %}
+		<img src='{{ MEDIA_URL }}{{ current_user_avatar }}'>
+		{% else %}
+		<img src='{{ STATIC_URL }}images/default_avatar.jpg'>
+		{% endif %}
+	</div>
+	<div class="xLeft_point">&nbsp;</div>
+	<div class="xMailContent">
+		发送给 
+		<a href="{% url 'songs.views.songs_by_user' uid=mail.to_user_id %}">{{ partner_username }}</a>
+		：
+		{{ mail.content }}
+		<span>
+			({{ mail.sent_datetime|friendly_time }})
+		</span>
+		<a href="javascript:del_mail({{ mail.id }});">
+			<img src="{{ STATIC_URL }}images/delete.gif"> 删除
+		</a>
+	</div>
+	{% else %}
+	<div class="xMailContent" style="margin-left:68px">
+		<a href="{% url 'songs.views.songs_by_user' uid=mail.from_user_id %}">{{ partner_username }}</a>：
+		{{ mail.content }}
+		<span>
+			({{ mail.sent_datetime|friendly_time }})
+		</span>
+		<a href="javascript:del_mail({{ mail.id }});">
+			<img src="{{ STATIC_URL }}images/delete.gif"> 删除
+		</a>
+	</div>
+	<div class="xRight_point">&nbsp;</div>
+	<div class="avatar_small">
+		{% if partner_avatar %}
+		<img src='{{ MEDIA_URL }}{{ partner_avatar }}'>
+		{% else %}
+		<img src='{{ STATIC_URL }}images/default_avatar.jpg'>
+		{% endif %}
+	</div>
+	{% endifequal %}
+</div>
+<div class="clear"></div>
+{% endfor %}
+
+
+{% if mails.object_list.count > 0 %}
+<div class="pagination">
+    <span class="step-links">
+        {% if mails.has_previous %}
+            <a href="?page={{ mails.previous_page_number }}">上一页</a>
+        {% endif %}
+
+        <span class="current">
+            第 {{ mails.number }} 页 / 共 {{ mails.paginator.num_pages }} 页
+        </span>
+
+        {% if mails.has_next %}
+            <a href="?page={{ mails.next_page_number }}">下一页</a>
+        {% endif %}
+    </span>
+</div>
+{% else %}
+<div class="warning">
+	暂时没有任何私信。
+</div>
+{% endif %}
+
+<a id="link_del_mail_dialog" class="thickbox" href="{% url 'del_mail' %}?height=100&width=250&modal=true"></a>
+{% endblock %}
+
+{% block righttop %}
+{% include 'profile/user_box.html' %}
+{% endblock %}

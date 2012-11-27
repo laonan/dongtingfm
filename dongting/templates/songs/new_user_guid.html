@@ -1,0 +1,10 @@
+{% load url from future %}
+<div id="new_user_guid">
+	<span>您的首页暂时没有任何音乐，您可以：</span>
+	<div class="new_user_guid_content">
+		1、发布您喜欢的音乐。  <a href="{% url 'songs.views.add_music' %}?height=460&width=400&modal=true" class="thickbox">发布</a><br>
+		2、关注别人发布的音乐。 <a href="{% url 'sns.views.get_people_list' %}">找朋友</a><br>
+		3、邀请热爱音乐的朋友来这里。 <a href="{% url 'sns.views.invite_people_by_email' %}">邀请朋友</a><br>
+		4、到广场去随便听听。 <a href="{% url 'home.views.index' %}">广场</a>
+	</div>
+</div>

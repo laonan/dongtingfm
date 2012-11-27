@@ -1,0 +1,17 @@
+{% load url from future %}
+{% autoescape off %}
+尊敬的用户，您好：
+ 
+感谢您注册{{ site_name }}。请点击以下链接激活您的帐户：
+ 
+{% block active_link %}
+{{ protocol }}://{{ domain }}{% url 'accounts.views.active_user' uidb36=uid token=token %}
+{% endblock %}
+
+如果您的E-mail程序不支持链接点击，请将上面的地址拷贝至您的浏览器(例如IE)的地址栏进入 {{ site_name }}。
+
+感谢对 {{ site_name }} 的支持。
+
+{{ site_name }} 支持团队。
+
+(这是一封自动产生的E-mail，请勿回复。){% endautoescape %}

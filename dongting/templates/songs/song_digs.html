@@ -1,0 +1,90 @@
+{% load url from future %}
+<script type="text/javascript">
+//ajax pagination for digs
+var dig_list_url = '{% url 'songs.views.song_digs' song_id=song_id %}';
+function ajax_get_digs_update() {
+	   $('#ajax_dig_users').fadeOut();
+       $.get(dig_list_url, function(results){
+          //get the parts of the result you want to update. Just select the needed parts of the response
+          var dig_list_content = $('#ul_dig_list', results);
+          var span = $("span.dig-step-links", results);
+          
+          //update the ajax_table_result with the return value
+          $('#ajax_dig_users').html(dig_list_content);
+          $('#ajax_dig_users').fadeIn();
+          $('.dig-step-links').html(span);
+        }, "html");
+    }
+
+//bind the corresponding links in your document to the ajax get function
+$( document ).ready( function() {
+    $( '.dig-step-links #dig_prev' ).click( function(e) {
+        e.preventDefault();
+        dig_list_url = ($( '.dig-step-links #dig_prev' )[0].href);
+        ajax_get_digs_update();
+    });
+    $( '.dig-step-links #dig_next' ).click( function(e) {
+        e.preventDefault();
+        dig_list_url = ($( '.dig-step-links #dig_next' )[0].href);
+        ajax_get_digs_update();
+    });
+});
+
+//since the links are reloaded we have to bind the links again
+//to the actions
+$( document ).ajaxStop( function() {
+    $( '.dig-step-links #dig_prev' ).click( function(e) {
+        e.preventDefault();
+        dig_list_url = ($( '.dig-step-links #dig_prev' )[0].href);
+        ajax_get_digs_update();
+    });
+    $( '.dig-step-links #dig_next' ).click( function(e) {
+        e.preventDefault();
+        dig_list_url = ($( '.dig-step-links #dig_next' )[0].href);
+        ajax_get_digs_update();
+    });
+});
+</script>
+
+<div id="ajax_dig_users">
+	<ul id="ul_dig_list">
+		{% for dig in digs.object_list %}
+		<li>
+			<div class="avatar_small">
+				<a target="_blank" href="{% url 'songs.views.songs_by_user' uid=dig.user_id %}">
+					{% if dig.dig_user_avatar %}
+					<img src="{{ MEDIA_URL }}{{ dig.dig_user_avatar }}">
+					{% else %}
+					<img src='{{ STATIC_URL }}images/default_avatar.jpg'>
+					{% endif %}
+				</a>
+			</div>
+			<div class="clear"></div>
+			<a class="link_dig_user" href="{% url 'songs.views.songs_by_user' uid=dig.user_id %}">{{ dig.dig_user_name }}</a>
+		</li>
+		{% endfor %}
+	</ul>
+</div>
+<div class="clear"></div>
+{% if digs.paginator.num_pages > 1 %}
+<div class="dig_box_line"></div>
+<div class="pagination">
+	<span class="dig-step-links">
+    {% if digs.has_previous %}
+    <a id="dig_prev" href="{% url 'songs.views.song_digs' song_id=song_id %}?page={{ digs.previous_page_number }}">上一页</a>
+	{% else %}
+	<span style="visibility:hidden;">上一页</span>
+	{% endif %}
+	
+	<span class="current">
+	    第 {{ digs.number }} 页 / {{ digs.paginator.num_pages }} 页. 
+	</span>
+	
+	{% if digs.has_next %}
+	<a id="dig_next" href="{% url 'songs.views.song_digs' song_id=song_id %}?page={{ digs.next_page_number }}">下一页</a>
+	{% else %}
+	<span style="visibility:hidden;">下一页</span>
+	{% endif %}
+	</span>
+</div>
+{% endif %}

@@ -1,0 +1,63 @@
+#settings_box { padding-bottom: 40px; overflow: auto;}
+.fieldWrapper {
+	padding: 4px;
+}
+
+.fieldWrapper label {
+	display: block;
+	float: left;
+	width: 90px;
+	text-align: right;
+	margin-right: 6px;
+}
+.fieldWrapper span {
+	color: #808080;
+}
+
+.fieldWrapper #id_website {
+	width: 240px;
+}
+
+.fieldWrapper #id_intro {
+	width: 240px;
+	height: 80px;
+}
+
+#settings_left {
+	float: left;
+	padding: 8px 0 0 15px;
+}
+#settings_right {
+	float: left;
+	border-left: #F0F0F0 1px solid;
+	padding-left: 15px;
+	margin-left:60px;
+	width: 680px;
+}
+#settings_tab2 {
+	display: none;
+}
+
+#tab_options {
+	margin: 0px;
+	list-style: none;
+	overflow: auto;
+	padding: 4px;
+}
+
+#tab_options .c_tab {
+	
+	float: right;
+	margin: 0 12px 0 0;
+	border-bottom: #808080 4px solid;
+}
+
+#tab_options .o_tab {
+	
+	float: right;
+	margin: 0 12px 0 0;
+	border-bottom: #cccccc 4px solid;
+}
+#tab_options li a {
+	color: #000000;
+}

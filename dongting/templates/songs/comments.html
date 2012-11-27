@@ -1,0 +1,100 @@
+﻿{% extends "m_sections.html" %}
+{% load url from future %}
+﻿{% load filters %}
+{% block title %}我收到的评论{% endblock %}
+
+{% block style %}
+<link href="{{ STATIC_URL }}css/song_details.css" rel="stylesheet" type="text/css" media="screen" />
+<style>
+	#comments_title {
+		font-weight: bold;
+		font-size: 14px;
+		margin: 0 0 15px 0;
+		padding: 0 0 8px 4px;
+		color: gray;
+		border-bottom: #F0F0F0 1px solid;
+	}
+</style>
+{% endblock %}
+
+{% block javascript %}
+<script type="text/javascript">
+	var del_song_comment_id;
+	function del_comment(song_comment_id) {
+		del_song_comment_id = song_comment_id;
+		$('#link_del_comment_dialog').trigger('click');
+	}
+</script>
+{% endblock %}
+
+{% block content %}
+<div id="comments_title">我收到的评论：</div>
+
+<div id="div_comments_content">
+    {% for comment in comments.object_list %}
+    <div id="id_comment_content_{{ comment.id }}" class="comment_content">
+    	<ul>
+    		<li>
+		    	<div class="avatar_small">
+		    		{% if comment.songcomment_userprofile_avatar %}
+		    		<img src="{{ MEDIA_URL }}{{ comment.songcomment_userprofile_avatar }}">
+		    		{% else %}
+		    		<img src='{{ STATIC_URL }}images/default_avatar.jpg'>
+		    		{% endif %}
+		    	</div>
+	    	</li>
+	    	<li class="comment_right">
+	    		<div>
+	    			<a class="reply_comment" href="{% url 'songs.views.song_details' song_id=comment.song_id %}">
+	    				<img src="{{ STATIC_URL }}images/comments_icon.gif"> 回复
+	    			</a>
+	    			
+	    			<a class="del_comment" href="javascript:del_comment({{ comment.id }});">
+	    				<img src="{{ STATIC_URL }}images/delete.gif"> 删除
+	    			</a>
+	    			
+	    			<a href="{% url 'songs.views.songs_by_user' uid=comment.user_id %}">{{ comment.songcomment_user_username }}</a>
+	    			评论
+	    			<a href="{% url 'songs.views.song_details' song_id=comment.song_id %}">{{ comment.songcomment_song_title }}</a>
+	    			<span class="datetime">--{{ comment.comment_datetime|friendly_time }}</span>
+	    		</div>
+	    		<div class="clear"></div>
+	    		<div>{{ comment.comment|format_comment|safe }}</div>
+	    	</li>
+    	</ul>
+    	<div class="clear"></div>
+    </div>
+    {% endfor %}
+</div>
+{% if comments.object_list.count > 0 %}
+<div class="pagination">
+	<span class="step-links">
+    {% if comments.has_previous %}
+    <a id="prev" href="?page={{ comments.previous_page_number }}">上一页</a>
+    {% else %}
+    <span style="visibility:hidden;">上一页</span>
+    {% endif %}
+
+    <span class="current">
+    	第 {{ comments.number }} 页 / {{ comments.paginator.num_pages }} 页. 
+    </span>
+
+	{% if comments.has_next %}
+	<a id="next" href="?page={{ comments.next_page_number }}">下一页</a>
+    {% else %}
+	<span style="visibility:hidden;">下一页</span>
+    {% endif %}
+    </span>
+</div>
+{% else %}
+<div class="warning">
+	暂时没有收到任何评论。
+</div>
+{% endif %}
+
+<a id="link_del_comment_dialog" class="thickbox" href="{% url 'del_comment' %}?height=100&width=200&modal=true"></a>
+{% endblock %}
+
+{% block righttop %}
+{% include 'profile/user_box.html' %}
+{% endblock %}

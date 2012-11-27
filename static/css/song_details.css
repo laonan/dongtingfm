@@ -1,0 +1,39 @@
+#edit_music_form .edit_song_field {margin: 10px 0 0 4px;}
+#edit_music_form .edit_song_field input {width: 335px;}
+#edit_music_form .edit_song_field label {display: block;width: 90px;text-align: right;float: left;}
+
+#div_comments_content {margin: 0 25px 12px 4px;}
+
+.comment_content {overflow: hidden;border-bottom: #f0f0f0 1px solid;padding: 10px 0 8px 0;}
+.comment_content ul {list-style: none;padding: 0px;margin: 0px;}
+.comment_content ul li {float: left;}
+.comment_content ul .comment_right {margin: 0 0 0 12px;width: 460px;}
+.comment_content ul .del_comment {float: right;}
+.comment_content ul .reply_comment {margin: 0 0 0 6px;float: right;}
+
+.dialog_del_comment {padding: 0 0 10px 0;border-bottom: #cccccc 1px solid;}
+.dialog_del_comment span {margin: 0 0 20px;}
+
+#dig_users {margin: 10px 0 0 0; overflow: auto;}
+#dig_users #digs_title {margin: 4px 0 8px 0;}
+#dig_users label {font-weight: bold;}
+#dig_users .dig_users_box {float: left;height: 72px;width: 63px;}
+#dig_users .dig_users_box .link_dig_user {display: block;text-align: center;width: 47px;margin: 0 0 4px 0;overflow: hidden;}
+
+#ajax_dig_users {overflow: hidden;}
+#ajax_dig_users ul {margin: 0 0 4px 0;list-style: none;overflow: hidden;}
+#ajax_dig_users ul li {float: left;width: 50px;margin: 4px;}
+#ajax_dig_users ul li a {border: none;}
+#ajax_dig_users ul li .link_dig_user {display: block;text-align: center;width: 48px;height: 20px;overflow: hidden;}
+
+.dig_box_line {border-bottom: #cccccc 1px solid;margin: 4px 0 6px 0;}
+
+#dewplayer_content {margin: 8px 0 6px 0;}
+
+#url_box {margin: 4px;padding: 4px;border: #cccccc 1px dotted;word-break:break-all;}
+#url_box span {color:#808080;}
+
+.song_show .share a{display: inline;width: 16px;height: 16px;margin: 6px 0 0 2px;border: none;float: left;}
+.song_show .share iframe{margin: 0 0 0 2px;}
+
+#comment_box #btn_comment {margin: 10px 0 0 0;}

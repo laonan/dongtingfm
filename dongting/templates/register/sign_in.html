@@ -1,0 +1,51 @@
+{% extends "m_login_base.html" %}
+{% load url from future %}
+{% block title %}动听FM{% endblock %}
+{% block javascript %}
+<!--[if lte IE 6]>
+<script type="text/javascript">
+    window.location.href = "{% url 'ie6-page' %}";
+</script>
+<![endif]-->
+
+<script type="text/javascript">
+$(document).ready(function() {
+    $('#login_form').validationEngine({scroll:false});
+ });
+ </script>
+{% endblock %}
+
+{% block page %}
+<div id="login_box" class="box corners">
+	<div class="left_login_box">
+		<form id="login_form" action="" method="post">{% csrf_token %}
+			<p><label for="email">E-mail:</label> <input class="validate[required,custom[email]] input_l" type="text" name="email" value="{{ input_email }}" id="email"></p>
+			<p><label for="password">密 码:</label> <input class="validate[required] input_l" type="password" name="password" value="" id="password"></p>
+			<p>
+				<input id="remember_me" name="remember_me" type="checkbox"> 记住我 <a href="{% url 'django.contrib.auth.views.password_reset' %}">忘记密码</a>
+			</p>
+			<p id="login_buttons">
+				<input class="btn" id="btn_submit_login" type="submit" value="登 录" /> &nbsp;
+				还没注册？ <a href="{% url 'accounts.views.register' %}">注册</a>
+			</p>
+		</form>
+		
+		<div id="sns_login">
+			<a href="{% url 'social_weibo_login' %}">
+				<img src="{{ STATIC_URL }}images/api/sina_button.png">
+			</a>
+		</div>
+	</div>
+	<div class="right_login_pic">
+		{% if login_failure %}
+		<div class="error"> 
+		    <span class="errorlist">登录失败！ 请确认用户密码重新登录。</span> <br>
+		    如果是初次登录，请确认账户是否激活。 <br>
+		    <a href="{% url 'accounts.views.reactive' %}">重新发送激活链接</a>
+		</div>
+		{% else %}
+		<img alt="Welcome to dongting.fm!" src="{{ STATIC_URL }}images/player_bg.png" />
+		{% endif %}
+	</div>
+</div>
+{% endblock %}

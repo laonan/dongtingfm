@@ -1,0 +1,25 @@
+{% extends "m_login_base.html" %}
+{% load url from future %}
+{% block title %}正在退出登录...{% endblock %}
+{% block style %}
+<style type="text/css">
+	#logout_msg {
+		text-align: center;
+		padding: 50px 0 50px 0;
+	}
+</style>
+{% endblock %}
+{% block javascript %}
+<script type="text/javascript">
+	var t = setTimeout('ToHomePage()',2000);
+	function ToHomePage() {
+	    clearTimeout(t);
+	    window.location.href = '{% url 'home.views.index' %}';
+	}
+</script>
+{% endblock %}
+{% block page %}
+	<div id="logout_msg" class="box corners">
+		正在退出登录。。。 
+	</div>
+{% endblock %}

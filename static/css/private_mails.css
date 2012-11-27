@@ -1,0 +1,144 @@
+#mails_title {
+	font-weight: bold;
+	font-size: 14px;
+	margin: 0 0 15px 0;
+	padding: 0 0 6px 4px;
+	color: #808080;
+	border-bottom: #f0f0f0 1px solid;
+	overflow: hidden;
+}
+
+#mails_title label {
+	display: block;
+	float: left;
+	width: 100px;
+}
+
+#mails_title a {
+	display: block;
+	float: right;
+	width: 80px;
+	font-weight: normal;
+	font-size: 12px;
+}
+
+#mails_title a img {
+	vertical-align: middle;
+}
+
+.thread_list {
+	margin: 0 0 15px 0;
+	padding: 0 0 15px 0;
+	overflow: hidden;
+	border-bottom: #cccccc dotted 1px;
+}
+
+.thread_list ul {
+	list-style: none;
+	margin: 0;
+}
+
+
+
+.thread_list ul li {
+	margin: 0 0 0 6px;
+}
+
+.thread_list ul .second_li {
+	float: left;
+	width: 385px;
+	margin: 0 0 0 15px;
+}
+
+.thread_list ul .second_li .xLatest_content {
+	background-color: #f0f0f0;
+	padding: 10px;
+}
+
+.thread_list ul .first_li {
+	float: left;
+}
+
+.thread_list ul .right_thread_box {
+	float: right;
+}
+
+.thread_list ul li .avatar_small {
+	margin: 6px 0 0 0;
+}
+
+.thread_list ul li span {
+	display: block;
+	color: #808080;
+	text-align: right;
+}
+
+.dialog_del_thread {
+	padding: 0 0 10px 0;
+	border-bottom: #cccccc 1px solid;
+}
+
+.dialog_del_thread span {
+	margin: 0 0 20px;
+}
+
+.right_thread_box span img {
+	vertical-align: middle;
+	margin: 0 34px 0 0;
+}
+.right_thread_box span a img {
+	margin: 0 8px 0 0;
+}
+
+#mails_details_title {
+	border-bottom: #f0f0f0 1px solid;
+	overflow: hidden;
+	margin: 0 0 15px 0;
+	padding: 0 0 6px 4px;
+}
+
+#mails_details_title label {
+	font-size: 14px;
+	font-weight: bold;
+}
+
+#mails_details_title a {
+	display: block;
+	width: 100px;
+	float: right;
+}
+
+.MailContent {
+	
+}
+
+.MailContent .avatar_small {
+	margin: 8px 0 0 0;
+}
+
+.MailContent .xLeft_point {
+	background: url(../images/left_point.png) no-repeat 0px 15px;
+	float: left;
+	width: 19px;
+	height: 37px;
+}
+
+.MailContent .xRight_point {
+	background: url(../images/right_point.png) no-repeat 0px 15px;
+	float: left;
+	width: 19px;
+	height: 37px;
+}
+
+.MailContent .xMailContent {
+	background-color: #f0f0f0;
+	padding: 14px 10px 14px 10px;
+	margin: 0 0 8px 0;
+	float: left;
+	width: 390px;
+}
+
+.MailContent .xMailContent span {
+	color: #cccccc;
+	font-style: italic;
+}

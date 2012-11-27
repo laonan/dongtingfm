@@ -1,0 +1,65 @@
+#ul_reg {
+	padding: 8px;
+	list-style-type:none;
+}
+#ul_reg li {
+	padding: 4px;
+}
+
+#ul_reg label {
+	display: block;
+	width: 80px;
+	float: left;
+	text-align: right;
+	margin-right: 6px;
+}
+
+#ul_reg .captcha {
+	display: block;
+	height: 31px;
+}
+
+#ul_reg input {
+	width: 150px;
+}
+
+#ul_reg #id_captcha_1 {
+	width: 60px;
+}
+
+#ul_reg span {
+ 	color: #808080;
+ 	margin-left: 2px;
+ }
+ 
+ #ul_reg #div_captcha {
+ 	float: left;
+ 	margin: 0 6px 6px 0;
+ }
+ 
+ #ul_reg #div_change_captcha {
+ 	float: left;
+ }
+ 
+ #ul_reg .error_span {
+	color: red;
+}
+
+#bind_weibo_box {
+    padding: 8px;
+}
+
+#bind_weibo_box #new_user,#old_user {
+	float: left;
+}
+
+#bind_weibo_box #old_user {
+	text-align: center;
+	background-color: #f0f0f0;
+	padding: 5px 30px 15px 25px;
+	margin: 35px 0 0 80px;
+	width: 150px;
+	height: 80px;
+}
+
+#btn_reg_submit {margin-left: 134px;}

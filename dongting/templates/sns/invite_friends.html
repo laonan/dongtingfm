@@ -1,0 +1,35 @@
+{% extends "m_sections.html" %}
+{% load url from future %}
+{% block title %}邀请朋友{% endblock %}
+{% block style %}
+<link href="{{ STATIC_URL }}css/follow_list.css" rel="stylesheet" type="text/css" media="screen" />
+{% endblock %}
+
+{% block javascript %}
+<script type="text/javascript">
+$(document).ready(function() {
+    $('#send_form').validationEngine({scroll:false});
+ });
+ </script>
+{% endblock %}
+
+{% block content %}
+<div id="follow_title">
+	邀请朋友到动听FM，多个邮箱用半角的分号(;)隔开，每次邮件个数控制在20个左右：
+</div>
+<div class="clear"></div>
+
+<div class="xInviteContent">
+	<form id="send_form" action="{% url 'sns.views.invite_people_by_email' %}" method="post">{% csrf_token %}
+		<textarea id="id_mails_content" name="mails_content" class="validate[required]" rows="4" cols="65" style="overflow:hidden;" onpropertychange="this.style.height=this.scrollHeight + 'px'" oninput="this.style.height=this.scrollHeight + 'px'"></textarea>
+		<br>
+		<input type="submit" id="btn_send" class="btn" value="发送邮件">
+		{% if not ret %}<span>请勿重复频率发送邮件，否则容易被对方邮箱当成垃圾邮件处理。</span>{% else %} <span style="color:red;">{{ msg }}</span> {% endif %}
+	</form>
+</div>
+
+{% endblock %}
+
+{% block righttop %}
+{% include 'profile/user_box.html' %}
+{% endblock %}

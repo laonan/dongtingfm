@@ -1,0 +1,10 @@
+#outer_jPlayer {float:left; width:259px; border:1px solid #f0f0f0;}
+#radio_header {overflow: auto;}
+#radio_header img {float: left; margin-right: 6px;}
+#radio_header h2{float: left;}
+#player_box { margin-top: 12px;}
+#user_intro {float: left;}
+#radio_info div {margin-bottom: 8px;}
+#user_summary {float: left; margin-left: 12px;}
+.song_intro {width:450px;margin:4px 0 4px 4px;padding:4px 10px 4px 15px;border-bottom:1px dotted #ffffff;line-height: 18pt}
+.song_intro .fdate{color:#cccccc;}

@@ -1,0 +1,245 @@
+﻿/*
+dongting.fm layout
+*/
+
+* {margin: 0;padding: 0;}
+body {margin: 0px;padding: 0px;text-align: justify;font-family: "Microsoft YaHei", Tahoma, Arial;font-size: 12px;color: #000000;background-image:url(../images/tile.png)}
+p, ul, ol {margin: 0px;padding: 0px;line-height: 23px;}
+h1, h2, h3 {margin: 0px;padding: 0px;}
+h1 {font-size: 2em;}
+h2 {font-size: 1.4em;}
+h3 {font-size: 1em;}
+p, ul, ol {margin-top: 1.5em;}
+ul, ol {margin-left: 3em;}
+
+a {color: #009be3;text-decoration:none;}
+a:hover {color:#f07a23;text-decoration:none; border-bottom: 1px #f07a23 dotted;}
+img {border: none;}
+blockquote {margin-left: 3em;margin-right: 3em;}
+
+#ie6_msg {padding: 35px;overflow: auto; }
+#ie6_msg div { float: left; margin-left: 15px;}
+
+#header {width: 900px;margin: 0px auto;padding: 2px 0 0 0;}
+#header_background {background-color: #067cb2;border-bottom: #000000 solid 1px;overflow: hidden;padding: 0 0 6px 0;}
+
+#song_genres {background-color: #ffffff;border-bottom: #cccccc solid 1px;padding: 4px 0 4px 35px;}
+#song_genres ul {width: 900px;margin: 0px auto;list-style: none;}
+
+#song_genres ul li {margin: 0 12px 0 0;display: inline;}
+#song_genres .current_genre {background-color: #E3E8F4;border: #ccdcef 1px solid;border-radius: 10px;-moz-border-radius: 10px;-webkit-border-radius: 10px;padding: 3px 6px 3px 6px;}
+
+#logo {float: left;}
+#logo a {border: none;}
+#logo a img {margin: 6px 0 0 0;width: 98px;height: 31px;}/*占位，如果图片位置变动，tips等浮出层受影响*/
+
+#slogan {width: 768px;float: left;margin: 0 0 0 10px;padding: 20px 0 1px 0;color: #ffffff;}
+
+#navigation {padding-top: 10px;float: left;height: 35px;width: 780px;}
+#nav_ul {margin: 0px;list-style: none;}
+#nav_ul li {display: inline;}
+#nav_ul li img{vertical-align: middle;margin-bottom: 2px;}
+#nav_ul a {display: block;float: left;height: 19px;margin-right: 2px;padding: 2px 20px 0px 20px;background: url(../images/image02.jpg) no-repeat right 8px;text-decoration: none;color: #ffffff;font-weight: bold;}
+#nav_ul a:hover {color: #f07a23;border:none;}
+
+#link_login {float: right;margin: 14px 4px 0 0;color: #ffffff;}
+#link_login a {margin: 0 0 0 6px;color: #ffffff;}
+#link_login a:hover {color: #f07a23;}
+
+#link_post {display: block;width: 101px;height: 29px;float:left;background: url(../images/post.png) no-repeat;text-align: center;color: #ffffff;padding: 6px 0 0 0;margin: 0 0 0 20px;}
+#link_post:hover {color: #f07a23;border:none;}
+
+#li_my_songs a {display: block;float: left;height: 19px;margin-right: 2px;padding: 2px 20px 0px 20px;background: url(../images/image02.jpg) no-repeat right 8px;text-decoration: none;}
+
+
+/* add music box */
+.add_music_field {padding: 2px 0 2px 0;}
+.url-input {width: 250px;}
+.add_music_field label {display: block;width: 90px;float: left;text-align: right;margin-right: 6px;}
+.add_music_field label span {color: #ff0000;}
+.add_music_field textarea {width: 250px;height: 80px;}
+.add_music_msg {background: #FFF4E7;padding: 6px;margin-bottom: 12px;height: 40px;}
+
+#add_music_artist_headshot {display: none;padding: 6px;margin: 10px 0 0 0;}
+#exist_song {display:none;padding: 6px;}
+#exist_song_content .exist_field {margin: 0 0 4px 0;}
+#exist_song_content .exist_field label {display: block;width: 90px;float: left;text-align: right;margin-right: 6px;color: #808080;}
+
+#exist_seprator {margin: 10px 0 10px 0;}
+
+#left_upload {float: left;}
+#left_upload .upload_field {margin: 0 0 10px 0;}
+#left_upload .upload_field input {width:180px;}
+#left_upload .upload_field label {display: block;width: 60px;float: left;text-align: right;	}
+
+#right_upload {float: left;margin: 5px 0 0 60px;padding: 0 0 0 10px;border-left: #f0f0f0 1px solid;}
+
+#song_details {margin: 10px 0 0 0;float: left;}
+#artist_headshot {text-align: center;margin: 10px 0 0 0;padding: 5px 0 0 20px;float: left;}
+#artist_headshot a {text-align: center;margin: 2px 0 0 0;width: 80px;display: block;}
+
+#login_form p label {display: block;width: 48px;float: left;}
+#login_form .input_l {width: 192px;}
+#login_form #login_buttons {/*text-align: center;*/}
+#login_msg {display:none;}
+
+#splash {width: 900px;height: 300px;margin: 0px auto;padding: 30px 0px;}
+
+#content {width: 900px;overflow: hidden;margin: 0px auto;}
+
+#page {padding-top: 15px;margin: 0px 8px 0px 8px;overflow: hidden;}
+
+#column1 {float: left;width: 555px;padding:20px;}
+#column1 h2 {padding-bottom: 6px;background: url(../images/image03.jpg) repeat-x left bottom;letter-spacing: -1px;text-transform: uppercase;font-size: 24px;font-weight: normal;color: #525250;}
+
+#column2 {float: right;width: 260px;}
+#column2 .ad_img {text-align: center;border: #cccccc 2px solid;margin: 3px 0 0 0;}
+#column2 .ad_img a {border: none;}
+#column2 .ad_img img {border: none;overflow: hidden;margin:0px;padding:0px;}
+#column2 h2 {padding-bottom: 6px;background: url(../images/image03.jpg) repeat-x left bottom;letter-spacing: -1px;text-transform: uppercase;font-size: 20px;font-weight: normal;color: #525250;}
+
+.dongting {color: #7ebf4f;}
+.fm {color: #f07a23;}
+.separator {background: url(../images/image03.jpg) repeat-x left bottom;}
+.more {padding: 3px 10px;background: #474747;text-decoration: none;font-size: 10px;color: #FFFFFF;}
+
+#footer {width: 900px;margin: 6px auto;padding: 2px 0px;}
+#footer p {text-transform: uppercase;font-size: 10px;color: #90908E; padding-left: 12px;}
+#footer .links {text-decoration: none;color: #9CC54F;}
+
+.clear {clear:both;}
+.center {text-align: center;}
+.btn {padding:2px 6px 2px 6px;border: #7ebf4f 1px solid;}
+.btn:hover {border: #f07a23 1px solid;}
+.btn:active {border: #cccccc 1px solid;}
+.text-input {font-size:12px;}
+
+.errorlist {color: #ff0000;}
+#search_box {height: 32px;padding: 8px 0 0 8px; margin-bottom: 15px;}
+#search_box #txt_seek_key {width: 180px;}
+
+.avatar_small {text-align: center;border:#cccccc 1px solid;padding: 1px;width: 45px;float: left;}
+.artist_small {text-align: center;border:#cccccc 1px solid;padding: 1px;width: 50px;float: left;}
+
+.txt_center {text-align: center;}
+.datetime {color: #cccccc;font-style: italic;}
+
+.dialog_need_to_login_msg {font-weight: bold;overflow: hidden;border-bottom: #cccccc 1px solid;}
+.dialog_need_to_login_msg  img {margin-left: 55px;float: left;}
+.dialog_need_to_login_msg span {display: block;width: 80px;float: left;margin-top: 12px;}
+
+.nomusic {margin: 40px;text-align: center;}
+.nomusic span {display: block;margin: 0 0 5px 0;}
+
+.xRoundBox {background-color: #f0f0f0;padding: 20px;margin: 6px 0 12px 0;width: 420px;display: none;}
+.xRoundBox input {vertical-align: top;}
+.xRoundBox div {width: 297px;font-size: 12px;}
+.xRoundBox textarea {font-size: 12px;}
+.xRoundBox #share_to_weibo {margin-top: 16px; margin-left: 8px;}
+.xSubmit img { margin-top: 10px;}
+
+.user_box {padding: 0px;}
+.user_box ul {margin: 0px;list-style: none;}
+.user_box ul li {background: #f0f0f0;padding: 4px 4px 4px 10px;margin: 0 0 6px 0;border-top:#f5f5f5 1px solid;border-left:#f5f5f5 1px solid;border-right:#cccccc 1px solid;border-bottom:#cccccc 1px solid;}
+
+.info, .success, .warning, .error, .validation {border: 1px dotted;margin: 10px 0px;padding:15px 10px 15px 50px;background-repeat: no-repeat;background-position: 10px center;}
+.info {color: #00529B;background-color: #BDE5F8;background-image: url('../images/info.png');}
+.success {color: #4F8A10;background-color: #DFF2BF;background-image:url('../images/success.png');}
+.warning {color: #9F6000;background-color: #FEEFB3;background-image: url('../images/warning.png');}
+.error {color: #D8000C;background-color: #FFBABA;background-image: url('../images/error.png');}
+
+.private_mail_box {padding: 0;}
+.private_mail_box .mail_field {margin: 0 0 15px 0;overflow: hidden;}
+.private_mail_box .mail_field label {display: block;width: 70px;float: left;text-align: right;}
+.private_mail_info {background: #FFF4E7;padding: 6px;margin-bottom: 12px;height: 20px;color: #808080;}
+
+/*tab css*/
+ul.tabs {margin: 0;padding: 0;float: left;list-style: none;height: 28px; /*--Set height of tabs--*/border-bottom: 1px solid #999;border-left: 1px solid #999;width: 100%;}
+ul.tabs li {
+	float: left;
+	margin: 0;
+	padding: 0;
+	height: 27px; /*--Subtract 1px from the height of the unordered list--*/
+	line-height: 27px; /*--Vertically aligns the text within the tab--*/
+	border: 1px solid #999;
+	border-left: none;
+	margin-bottom: -1px; /*--Pull the list item down 1px--*/
+	overflow: hidden;
+	position: relative;
+	background: #e0e0e0;
+}
+ul.tabs li a {
+	text-decoration: none;
+	color: #000;
+	display: block;
+	font-size: 12px;
+	padding: 0 15px;
+	border: 1px solid #fff; /*--Gives the bevel look with a 1px white border inside the list item--*/
+	outline: none;
+}
+ul.tabs li a:hover {
+	background: #ccc;
+}
+html ul.tabs li.active, html ul.tabs li.active a:hover  { /*--Makes sure that the active tab does not listen to the hover properties--*/
+	background: #fff;
+	border-bottom: 1px solid #fff; /*--Makes the active tab look like it's connected with its content--*/
+}
+.tab_container {border: 1px solid #999;border-top: none;overflow: hidden;clear: both;float: left; width: 100%;background: #fff;}
+.tab_content {padding: 15px;font-size: 12px;}
+.tab_content span {margin: 0 4px 0 4px;color: #808080;}
+.ui-tooltip-content a {color: #F07A23}
+.list_player {text-align:center;background-color:#f0f0f0;padding:8px 0 8px 0;}
+.play_list_btns {padding: 0 0 0 2px;}
+.play_list_btns a {margin: 0 0 0 2px;}
+
+.box_table_a {font-size: 12px;width: 300px;text-align: left;border-collapse: collapse;margin: 0;}
+.box_table_a td {background: #E8EDFF;border-bottom: 1px solid white;color: #669;border-top: 1px solid transparent;padding: 8px;}
+.box_table_a .btns {text-align: right;}
+.box_table_a tr:hover td {background: #D0DAFD;color: #339;}
+
+
+#login_box { overflow: auto; padding-bottom: 35px;}
+#login_box div {float: left;}
+#login_box .left_login_box {margin: 0 0 0 10px;padding: 0 30px 0 0;background: url("../images/v_line.jpg") 270px 0 no-repeat;}
+#login_box .right_login_pic {margin: 7px 0 0 20px;}
+
+#sns_login {width: 100%;margin: 15px 0 0 0;padding: 10px 0 0 0;border-top: #cccccc 1px dotted;}
+#player_box { margin-bottom: 15px;}
+#flatpage_content { padding: 45px;}
+
+/* roll to top */
+#roll_top,#roll_bottom {position:relative;cursor:pointer;height:33px;width:23px;}
+#roll_top {background:url("../images/top.gif") no-repeat;}
+#roll_bottom {background:url("../images/top.gif") no-repeat 0 -33px;}
+#roll {display:none;
+	width:23px;
+	margin-right:-475px;  /*这个是距离的位置，请自行调整，必要时可以增加IE6的hack*/
+	position:fixed;
+	right:50%;
+	top:50%;
+	_position:absolute;
+	_margin-top:300px;
+	_top:expression(eval(document.documentElement.scrollTop));
+	}
+
+
+/* box */
+.box {
+    background: white;
+    border: 1px solid #E5E5E5;
+    margin-bottom: 6px;
+    padding: 10px 12px;
+    box-shadow: 0 2px 3px rgba(0, 0, 0, .1);
+    -webkit-box-shadow: 0 2px 3px rgba(0, 0, 0, .1);
+    -moz-box-shadow: 0 2px 3px rgba(0, 0, 0, .1);
+    -o-box-shadow: 0 2px 3px rgba(0, 0, 0, .1);
+}
+
+.corners {
+    -webkit-border-radius: 3px;
+    -moz-border-radius: 3px;
+    -o-border-radius: 3px;
+    -khtml-border-radius: 3px;
+    border-radius: 3px;
+}
+

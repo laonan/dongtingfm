@@ -1,0 +1,136 @@
+{% extends "m_login_base.html" %}
+{% load url from future %}
+{% block title %}注册{% endblock %}
+{% block style %}
+<link href="{{ STATIC_URL }}css/reg.css" rel="stylesheet"type="text/css" />
+{% endblock %}
+{% block javascript %}
+<script type="text/javascript">
+$(document).ready(function() {
+	
+	$('#reg_form').validationEngine({scroll:false});
+
+	$('#btn_reg_submit').click(function() {
+    	var ret = validateCaptcha();
+    	return ret
+    });
+       
+    $('#link_change_captcha').click( function() {
+    	$.get('{% url 'common.views.get_single_captcha' %}', function(data) {
+	        $('#div_captcha').html(data);
+	    });
+    });
+    
+    $('.thickbox').click( function() {
+    	$('#reg_form').validationEngine('hideAll');
+    });
+    
+    $('#id_captcha_1').blur( function() {
+    	validateCaptcha();
+    });
+    
+    function validateCaptcha()
+    {
+    	var ret = true
+    	captchaValue = $('#id_captcha_1').val();
+    	if(captchaValue == null || captchaValue == '') {
+    		$('#id_captcha_1').validationEngine('showPrompt', '* 必填', '', 'bottomRight', true)
+    		ret = false;
+    	} else {
+    		$('#id_captcha_1').validationEngine('hide');
+    	}
+    	$("#reg_form").validationEngine('detach');
+    	$('#reg_form').validationEngine({scroll:false});
+    	$("#reg_form").validationEngine('attach');
+    	
+    	return ret;
+    }
+ });
+</script>
+{% endblock %}
+{% block page %}
+<div class="box corners">
+<h3>免费开通动听FM账号</h3>
+ <form id="reg_form" action="" method="post">{% csrf_token %}
+ 	<ul id="ul_reg">
+ 	    <li>
+ 	    	<label>E-mail：</label> {{ form.email }}
+ 	    	
+ 	    	
+ 	    {% if form.email.errors %}
+            <span class="error_span">
+            {% for error in form.email.errors %}
+                {{ error|escape }}
+            {% endfor %}
+            </span>
+        {% else %}
+            <span>用于登录和验证，系统不会公布您的邮箱地址</span>
+        {% endif %}
+        
+ 	    </li>
+ 	    <li>
+ 	    	<label>密码：</label> {{ form.password }}
+ 	    	
+ 	    {% if form.password.errors %}
+            <span class="error_span">
+            {% for error in form.password.errors %}
+                {{ error|escape }}
+            {% endfor %}
+            </span>
+        {% else %}
+            <span>字母、数字或符号，最短6个字符，区分大小写</span>
+        {% endif %}
+ 	    	
+ 	    </li>
+ 	    <li>
+ 	    	<label>确认密码：</label> {{ form.password1 }}
+ 	    	
+ 	    {% if form.password1.errors %}
+            <span class="error_span">
+            {% for error in form.password1.errors %}
+                {{ error|escape }}
+            {% endfor %}
+            </span>
+        {% else %}
+            <span>再输入一遍跟上面一样的密码</span>
+        {% endif %}
+ 	    </li>
+ 	    <li>
+ 	    	<label>昵称：</label> {{ form.username }}
+ 	    	
+ 	    {% if form.username.errors %}
+            <span class="error_span">
+            {% for error in form.username.errors %}
+                {{ error|escape }}
+            {% endfor %}
+            </span>
+        {% else %}
+            <span>最短2个字符,小心填，以后网站里面的朋友们也会以这个名头称呼你</span>
+        {% endif %}
+ 	    </li>
+ 	    <li>
+ 	    	<label>验证码：</label>
+ 	    	<div id="div_captcha">
+ 	    	{{ form.captcha }}
+ 	   {% if form.captcha.errors %}
+            <span class="error_span">
+            {% for error in form.captcha.errors %}
+                {{ error|escape }}
+            {% endfor %}
+            </span>
+        {% endif %}
+ 	    	</div>
+ 	    	<div id="div_change_captcha">看不清？<a id="link_change_captcha" href="javascript:void(0);">换一个</a></div>
+ 	    
+        	<div class="clear"></div>
+ 	    	</li>
+	</ul>
+	
+	<p>
+    	<input id="btn_reg_submit" type="submit" class="btn" value="立即注册"/>
+    	已经注册？<a href="{% url 'accounts.views.sign_in' %}">请登录</a>
+    </p>
+</form>
+<br />
+</div>
+{% endblock %}

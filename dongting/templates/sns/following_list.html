@@ -1,0 +1,83 @@
+{% extends "m_sections.html" %}
+{% load url from future %}
+{% block title %}我关注的人{% endblock %}
+{% block style %}
+<link href="{{ STATIC_URL }}css/follow_list.css" rel="stylesheet" type="text/css" media="screen" />
+{% endblock %}
+
+{% block javascript %}
+<script type="text/javascript">
+	var follow_url = '{% url 'sns.views.follow_user' %}';
+</script>
+<script src="{{ STATIC_URL }}js/follow_list.js" type="text/javascript"></script>
+{% endblock %}
+
+{% block content %}
+<div id="follow_title">
+	我关注的人：
+</div>
+<div class="clear"></div>
+{% for f in followers.object_list %}
+<div id="id_follow_{{ f.user_id }}" class="follow_list">
+	<ul>
+		<li class="first_li">
+			<div class="avatar_small">
+				{% if f.follower_userprofile_avatar %}
+				<img src='{{ MEDIA_URL }}{{ f.follower_userprofile_avatar }}'>
+				{% else %}
+				<img src='{{ STATIC_URL }}images/default_avatar.jpg'>
+				{% endif %}
+			</div>
+		</li>
+		<li class="second_li">
+			<span>
+				<a href="{% url 'songs.views.songs_by_user' uid=f.user_id %}">{{ f.user.username }}</a>
+			</span>
+			<span>城市: {% if f.follower_userprofile_city %}{{ f.follower_userprofile_city }}{% else %}未知{% endif %}</span>
+			<div>
+				{% if f.follower_userprofile_intro %}
+				{{ f.follower_userprofile_intro }}
+				{% endif %}
+			</div>
+		</li>
+		<li class="right_follow_box">
+			<span>
+				<a class="link_remove_follow" href="javascript:remove_follow({{ f.user_id }},'{{ f.user.username }}', 'following');">取消关注</a>
+			</span>
+			<span>
+				<a href="{% url 'sns.views.send_private_mail' %}?height=260&width=350&modal=true&to_uid={{ f.user_id }}" class="thickbox" title="发私信">发私信</a>
+			</span>
+		</li>
+	</ul>
+</div>
+<div class="clear"></div>
+{% endfor %}
+
+{% if followers.object_list.count > 0 %}
+<div class="pagination">
+    <span class="step-links">
+        {% if followers.has_previous %}
+            <a href="?page={{ followers.previous_page_number }}">上一页</a>
+        {% endif %}
+
+        <span class="current">
+            第 {{ followers.number }} 页 / 共 {{ followers.paginator.num_pages }} 页
+        </span>
+
+        {% if followers.has_next %}
+            <a href="?page={{ followers.next_page_number }}">下一页</a>
+        {% endif %}
+    </span>
+</div>
+{% else %}
+<div class="warning">
+	暂时没有我关注的人。
+</div>
+{% endif %}
+
+<a id="link_remove_follow_dialog" class="thickbox" href="{% url 'remove_follow' %}?height=100&width=300&modal=true"></a>
+{% endblock %}
+
+{% block righttop %}
+{% include 'profile/user_box.html' %}
+{% endblock %}

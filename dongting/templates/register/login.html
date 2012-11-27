@@ -1,0 +1,50 @@
+{% load url from future %}
+<script type="text/javascript">
+// Called once the server replies to the ajax form validation request
+var t;
+function ajaxValidationCallback(status, form, json, options){
+	if (json == 'true') {
+        window.location.href = '{% url 'songs.views.my_home' %}';
+    } else {
+    	 $('#login_msg').html('<p>登录失败！<a href="javascript:relogin();">重新登录</a></p><p>如果您已经注册，请到您的注册邮箱激活用户，或者<a href="{% url 'accounts.views.reactive' %}">重新发送激活链接</a><br><br>如果您还未注册本站，<a href="{% url 'accounts.views.register' %}">请注册</a>');
+    	 $('#login_box').hide();
+         $('#login_msg').show();
+    }
+}
+
+function relogin()
+{
+	$('#login_msg').hide();
+	$('#login_box').show();
+}
+
+$(document).ready(function() {
+    $('#login_form').validationEngine({
+    	scroll:false,
+    	ajaxFormValidation: true,
+		onAjaxFormComplete: ajaxValidationCallback
+    });
+ });
+</script>
+<div id="login_box">
+	<form id="login_form" action="{% url 'accounts.views.ajax_login' %}" method="post">{% csrf_token %}
+		<p><label for="email">E-mail:</label> <input class="validate[required,custom[email]] input_l" type="text" name="email" value="" id="email"></p>
+		<p><label for="password">密 码:</label> <input class="validate[required] input_l" type="password" name="password" value="" id="password"></p>
+		<p>
+			<input id="remember_me" name="remember_me" type="checkbox"> 记住我 <a href="{% url 'django.contrib.auth.views.password_reset' %}">忘记密码</a>
+		</p>
+		<p id="login_buttons">
+			<input class="btn" id="btn_submit_login" type="submit" value="登 录" /> &nbsp;
+			{% if not Sign_In_View %}
+		    <input id="btn_cancel_login" class="btn" type="button" value="取消" >
+		    {% else %}
+		    	还没注册？ <a href="{% url 'accounts.views.register' %}">注册</a>
+		    {% endif %}
+		    <input type="hidden" name="next" value="{{ next|escape }}" />
+		    {% if form.errors %}
+		    <span class="errorlist">用户名密码错误！</span>
+	        {% endif %}
+		</p>
+	</form>
+</div>
+<div id="login_msg"></div>

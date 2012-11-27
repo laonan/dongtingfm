@@ -1,0 +1,62 @@
+<script type="text/javascript">
+$(document).ready(function() {
+	var removeMsg = '';
+	if(remove_follow_type == 'following')
+		removeMsg = '您确定要取消对' + remove_follow_username + '的关注吗？';
+	else
+		removeMsg = '您确定要移除' + remove_follow_username + '对您的关注吗？';
+	
+	$('.dialog_remove_follow span').text(removeMsg);
+	
+	$('#btn_close_dialog').click(function() {
+		tb_remove();
+	});
+	
+	$('#btn_remove').click(function(){
+			var sendData;
+			if(remove_follow_type == 'following')
+				sendData = 'following_userid=' + remove_follow_id;
+			else
+				sendData = 'follower_userid=' + remove_follow_id;
+				
+			$.ajax({
+		                type: 'GET',
+		                contentType: 'application/json',
+		                url: follow_url,
+		                data: sendData,
+		                dataType: 'json',
+		                beforeSend: function()
+	                    {
+	                    	$('#btn_remove').attr('disabled',true);
+	                    },
+		                error: function (XmlHttpRequest, textStatus, errorThrown){
+					       alert(errorThrown);
+					    }, 
+		                success: function(jsonData) {
+		                	if(jsonData.excuted ) {
+			                	$('#id_follow_' + remove_follow_id).slideUp();
+			                	if(remove_follow_type == 'following') {
+			                		var following_count = parseInt($('#user_box_following_count').text(),10);
+			                		$('#user_box_following_count').text(following_count-1);
+			                	} else {
+			                		var follower_count = parseInt($('#user_box_follower_count').text(),10);
+			                		$('#user_box_follower_count').text(follower_count-1);
+			             		}
+		                		
+		                		tb_remove();
+			                }
+		                }
+		            });
+		});
+});
+</script>
+<div class="dialog_remove_follow">
+	<img src="{{ STATIC_URL }}images/comment_delete.png">
+	<span>您确定要取消关注吗？</span>
+</div>
+<div class="clear"></div>
+<br>
+<div class="center">
+	<input type="button" id="btn_remove" class="btn" value="确 定">
+	<input type="button" id="btn_close_dialog" class="btn" value="取 消">
+</div>

@@ -1,0 +1,21 @@
+{% load url from future %}
+<script type="text/javascript" src="{{ STATIC_URL }}js/send_private_mail.js"></script>
+<form id="send_form" action="{% url 'sns.views.send_private_mail' %}" method="post">{% csrf_token %}
+	<div class="private_mail_box">
+		<div class="private_mail_info">说明：私信内容最多只能输入300字。</div>
+		<div class="mail_field">
+			<label>发私信给：</label>
+			<input id="id_to_user" name="to_user" value="{{ to_username }}" class="validate[required] text-input" type="text">
+		</div>
+		<div class="mail_field">
+			<label>私信内容：</label>
+			<textarea id="id_mail_content" name="mail_content" class="validate[required,maxSize[300]]" rows="6" cols="28"></textarea>
+		</div>
+		<div class="separator">&nbsp;</div>
+		<br>
+		<div class="center">
+			<input type="submit" id="btn_send" value="发 送" class="btn">
+			<input type="button" id="btn_cancel_send" value="取 消" class="btn">
+		</div>
+	</div>
+</form>

@@ -1,0 +1,27 @@
+{% extends "m_login_base.html" %}
+{% block title %}还用IE6这么老掉牙的浏览器啊...{% endblock %}
+
+{% block page %}
+    <div id="ie6_msg" class="box corners">
+        <div>
+            <img src="{{ STATIC_URL }}images/no_ie6.gif" alt="" />
+        </div>
+        <div>
+            <br />
+            <p>
+                还在用老掉牙的IE6啊，本站不支持IE6哦，微软都不推荐大家用了的，还不赶快
+                <a target="_blank" href="http://windows.microsoft.com/zh-CN/internet-explorer/downloads/ie?ocid=ie6_countdown_bannercode">
+                    升级IE浏览器
+                </a>?
+            </p>
+            <p>
+                或者试试这些牛逼的浏览器：
+                <a target="_blank" href="http://www.google.com/chrome?brand=CHKZ&hl=zh-CN">谷歌浏览器</a>,
+                <a target="_blank" href="http://firefox.com.cn/download/">火狐浏览器</a>,
+                <a target="_blank" href="http://cn.opera.com/">Opera</a>,
+                <a target="_blank" href="http://www.apple.com.cn/safari/download/">Safari</a>
+            </p>
+            <p>如果你非要用IE。。。那好吧，我希望你能升级到IE9+，我实在厌倦了为兼容古老的浏览器而放弃HTML5等大好的Web特性。</p>
+        </div>
+    </div>
+{% endblock %}

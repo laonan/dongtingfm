@@ -1,0 +1,101 @@
+{% extends "m_base.html" %}
+{% load url from future %}
+{% block style %}{% endblock %}
+
+{% block javascript %}{% endblock %}
+{% block page %}
+<div id="column1" class="box corners">
+	<div class="box1">
+		{% block content %}{% endblock %}
+	</div>
+</div>
+<div id="column2">
+	<div id="search_box" class="box corners">
+		<input id="txt_seek_key" class="text-input" value="输入歌名、专辑或音乐人..." type="text">
+		<input id="btn_seek" class="btn" value="查询" type="button">
+	</div>
+	{% if user_profile %}
+	<div id="post_user" class="box corners">
+		<label>发布者：</label>
+		<div id="post_user_box">
+			<div class="avatar_small">
+				{% if user_profile.avatar%}
+				<img src='{{ MEDIA_URL }}{{ user_profile.avatar }}'>
+				{% else %}
+				<img src='{{ STATIC_URL }}images/default_avatar.jpg'>
+				{% endif %}
+			</div>
+			<div class="post_user_info">
+				{{ user_profile.user.username }} 
+			{% if user.is_authenticated %}
+				{% if user_profile.user.id != user.id %}
+				<a id="link_follow" {% if in_my_blacklist %}style="display:none"{% endif %} href="javascript:void(0);">{% if user_follower %} [取消关注] {% else %} [关注] {% endif %}</a>
+				<a id="link_private_mail" {% if in_my_blacklist %}style="display:none"{% endif %} href="{% url 'sns.views.send_private_mail' %}?height=260&width=350&modal=true&to_uid={{ user_profile.user.id }}" class="thickbox">[发私信]</a>
+				{% else %}
+				<span>[这是我]</span>
+				{% endif %}
+			{% endif %}
+				<br>
+				<span id="span_followers">被 {% if user_profile %} {{ user_profile.followers }} {% else %} 0 {% endif %} 个人关注</span>
+			{% if user.is_authenticated and user_profile.user != user  %}	
+				{#2 hidden fields below is used for blocking user dialog #}
+				<br>
+				<input type="hidden" id="txt_target_userid" value="{{ user_profile.user.id }}">
+				<input type="hidden" id="txt_target_username" value="{{ user_profile.user.username }}">
+				<a id="link_block_user" href="{% url 'add_to_blacklist' %}?height=100&width=400&modal=true" class="thickbox">
+					{% if in_my_blacklist %}
+					[取消拉黑]
+					{% else %}
+					<img src="{{ STATIC_URL }}images/block.gif">[加入黑名单]
+					{% endif %}
+				</a>
+			{% endif %}
+			</div>
+		</div>
+		<div class="clear"></div>
+		<div class="pst_user_bottom">
+			<a href="{% url 'songs.views.songs_by_user' uid=user_profile.user.id %}">
+				所有 {{ user_profile.user.username }} 发布的歌曲 ({{ user_profile.songs }}首)
+			</a>
+		</div>
+	</div>
+	{% endif %}
+
+	{% block righttop %}{% endblock %}
+	{% block advertisement %}
+    <div id="player_box" class="box corners">
+        <div style="background-color: #f0f0f0;">
+        <!-- The jPlayer div must not be hidden. Keep it at the root of the body element to avoid any such problems. -->
+        <div id="jquery_jplayer_1" class="cp-jplayer"></div>
+
+        <!-- The container for the interface can go where you want to display it. Show and hide it as you need. -->
+
+        <div id="cp_container_1" class="cp-container">
+            <div class="cp-buffer-holder"> <!-- .cp-gt50 only needed when buffer is > than 50% -->
+                <div class="cp-buffer-1"></div>
+                <div class="cp-buffer-2"></div>
+            </div>
+            <div class="cp-progress-holder"> <!-- .cp-gt50 only needed when progress is > than 50% -->
+                <div class="cp-progress-1"></div>
+                <div class="cp-progress-2"></div>
+            </div>
+            <div class="cp-circle-control"></div>
+            <ul class="cp-controls">
+                <li><a href="javascript:void(0);" class="cp-play" tabindex="1">play</a></li>
+                <li><a href="javascript:void(0);" class="cp-pause" style="display:none;" tabindex="1">pause</a></li> <!-- Needs the inline style here, or jQuery.show() uses display:inline instead of display:block -->
+            </ul>
+        </div>
+        </div>
+
+    </div>
+
+	{% endblock %}
+	{% block rightbottom %}
+	<div class="box corners">
+        <p><span class="fm">提示：</span>点击“动听”按钮把歌曲加入你自己的私人电台，或者到 <a href="{% url 'home.views.index' %}">广场</a> 随便听听。</p>
+        <p><span class="fm">注意：</span>我已经厌倦迁就古老的浏览器了，有些功能使用HTML5技术，如果你坚持用IE，最好能升级到IE9+，为了更好的用户体验，建议更换成<a target="_blank" href="http://www.google.com/chrome?brand=CHKZ&hl=zh-CN">谷歌浏览器</a>等符合W3C标准的浏览器。</p>
+        <p>联系方式：laonan(at)dongting.fm</p>
+    </div>
+	{% endblock %}
+</div>
+{% endblock %}

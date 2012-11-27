@@ -1,0 +1,41 @@
+{% load url from future %}
+<script type="text/javascript">
+$(document).ready(function() {
+	$('#btn_close_dialog').click(function () {
+		tb_remove();
+	});
+	
+	$('#btn_confirm').click(function() {
+		$.ajax({
+				type: 'GET',
+				contentType: 'application/json',
+				url: '{% url 'sns.views.del_mail' %}',
+				data: 'mail_id=' + del_mail_id,
+				dataType: 'json',
+				beforeSend: function() {
+				},
+				error: function (XmlHttpRequest, textStatus, errorThrown){
+				}, 
+				success: function(jsonData) {
+					if(jsonData.deleted) {
+						if(!jsonData.del_thread) {
+							window.location.href = window.location.href; 
+						} else {
+							window.location.href = private_mails_url;
+						}
+					}
+				}
+			});
+	});
+});
+</script>
+<div class="dialog_del_thread">
+	<img src="{{ STATIC_URL }}images/comment_delete.png">
+	<span>您确定要删除此私信吗？</span>
+</div>
+<div class="clear"></div>
+<br>
+<div class="center">
+	<input type="button" id="btn_confirm" class="btn" value="确 定">
+	<input type="button" id="btn_close_dialog" class="btn" value="取 消">
+</div>

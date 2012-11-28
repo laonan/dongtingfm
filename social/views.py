@@ -28,8 +28,8 @@ from accounts.views import _login
 from weibo import APIClient
 
 
-APP_KEY = '3727112766' # app key
-APP_SECRET = 'cd1ce0ba3ce8c7e463019c976533af60' # app secret
+APP_KEY = 'xxxxxx' # app key
+APP_SECRET = 'xxxxxxxx' # app secret
 
 def weibo_login(request):
     client = APIClient(app_key=APP_KEY, app_secret=APP_SECRET, redirect_uri=_get_weibo_callback_url(request))

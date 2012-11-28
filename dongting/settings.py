@@ -182,7 +182,7 @@ AUTH_PROFILE_MODULE = 'accounts.UserProfile' # 位置: dongting.accounts.models.
 
 DEFAULT_FROM_EMAIL = 'hi@dongting.fm'
 EMAIL_HOST = 'smtp.exmail.qq.com'
-EMAIL_HOST_PASSWORD = 'lenovot61!'
+EMAIL_HOST_PASSWORD = '123456'
 EMAIL_HOST_USER = 'hi@dongting.fm'
 EMAIL_PORT = 25
 EMAIL_USE_TLS = False

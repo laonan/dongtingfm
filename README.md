@@ -1,4 +1,4 @@
 dongtingfm
 ==========
 
-a music sns website is built by django.
+a django-based music sns website.
